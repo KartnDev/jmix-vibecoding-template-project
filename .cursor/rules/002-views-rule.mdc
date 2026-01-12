@@ -22,6 +22,16 @@ Applies to `src/main/java/**/view/` and `src/main/resources/**/view/`
 - `@ViewComponent` for UI components
 - `@Subscribe` for event handlers
 - `@Install` for delegates
+- `@Supply` for renderers
+
+## Key Events
+- `InitEntityEvent<T>` — set defaults for new entities
+- `ValidationEvent` — cross-field validation
+- `BeforeCloseEvent` — prevent close (unsaved changes)
+
+## Opening Views
+- `ViewNavigators` — full navigation (URL changes)
+- `DialogWindows` — modal dialogs (no URL)
 
 ## After Creating View
 1. Add menu entry in `menu.xml`

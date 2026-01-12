@@ -3,6 +3,20 @@
 ## Description
 Creating Vaadin Flow UI views with XML descriptors and Java controllers.
 
+## View Lifecycle (Order)
+
+| Order | Event | Purpose |
+|-------|-------|---------|
+| 1 | `InitEvent` | View created, components exist but data NOT loaded |
+| 2 | `InitEntityEvent<T>` | (Detail only) Entity created/loaded. Set defaults here |
+| 3 | `BeforeShowEvent` | Before visible, data loaders triggered |
+| 4 | `ReadyEvent` | View fully initialized and visible |
+| 5 | `AfterShowEvent` | After view shown, for analytics/logging |
+| 6 | `BeforeCloseEvent` | Before close, can prevent (unsaved changes) |
+| 7 | `AfterCloseEvent` | After closed, cleanup |
+
+**Detail view specific:** `ValidationEvent`, `BeforeSaveEvent`, `AfterSaveEvent`
+
 ## List View
 
 ### Java Controller
@@ -196,15 +210,42 @@ public void onReady(ReadyEvent event) {
     // Called when view is fully initialized and visible
 }
 
+// InitEntityEvent — set defaults for NEW entities (detail views)
+@Subscribe
+public void onInitEntity(InitEntityEvent<Customer> event) {
+    Customer customer = event.getEntity();
+    customer.setStatus(CustomerStatus.NEW);
+    customer.setCreatedDate(LocalDate.now());
+}
+
+// BeforeCloseEvent — prevent closing with unsaved changes
+@Subscribe
+public void onBeforeClose(BeforeCloseEvent event) {
+    if (dataContext.hasChanges()) {
+        event.preventClose();
+        // Show confirmation dialog
+    }
+}
+
+// ValidationEvent — cross-field validation (detail views)
+@Subscribe
+public void onValidation(ValidationEvent event) {
+    Customer customer = getEditedEntity();
+    if (customer.getEndDate().isBefore(customer.getStartDate())) {
+        event.getErrors().add("End date must be after start date");
+    }
+}
+
 // Component events (target = component id)
 @Subscribe("customersDataGrid.create")
 public void onCreateAction(ActionPerformedEvent event) {
     // Handle action click
 }
 
-@Subscribe(id = "customersDataGrid", target = Target.DATA_CONTEXT)
+// DataContext events
+@Subscribe(target = Target.DATA_CONTEXT)
 public void onPreCommit(DataContext.PreCommitEvent event) {
-    // Before saving
+    // Before saving all entities
 }
 ```
 
@@ -305,6 +346,135 @@ private Renderer<Customer> fullNameRenderer() {
 - [ ] Data containers and loaders defined
 - [ ] Menu entry added to `menu.xml`
 - [ ] Messages for title/labels added
+
+## Opening Views Programmatically
+
+### ViewNavigators (URL changes, full navigation)
+```java
+@Autowired
+private ViewNavigators viewNavigators;
+
+// Navigate to list
+viewNavigators.view(this, CustomerListView.class).navigate();
+
+// Navigate to detail (edit)
+viewNavigators.detailView(this, Customer.class)
+        .editEntity(customer)
+        .navigate();
+
+// Navigate to detail (create)
+viewNavigators.detailView(this, Customer.class)
+        .newEntity()
+        .withInitializer(c -> c.setStatus(CustomerStatus.NEW))
+        .navigate();
+
+// Lookup
+viewNavigators.lookup(this, Customer.class)
+        .withSelectHandler(customers -> { /* handle */ })
+        .navigate();
+```
+
+### DialogWindows (Modal, no URL change)
+```java
+@Autowired
+private DialogWindows dialogWindows;
+
+// Open detail as dialog
+dialogWindows.detail(this, Customer.class)
+        .editEntity(customer)
+        .withAfterCloseListener(e -> {
+            if (e.closedWith(StandardOutcome.SAVE)) {
+                customersDl.load(); // Refresh
+            }
+        })
+        .open();
+
+// Open lookup dialog
+dialogWindows.lookup(this, Customer.class)
+        .withSelectHandler(customers -> { /* handle */ })
+        .open();
+```
+
+| ViewNavigators | DialogWindows |
+|----------------|---------------|
+| URL changes | No URL change |
+| Browser history | Not in history |
+| Full page | Modal overlay |
+
+## Standard Actions
+
+| Type | Purpose |
+|------|---------|
+| `list_create` | Create new entity |
+| `list_edit` | Edit selected |
+| `list_remove` | Remove selected |
+| `detail_saveClose` | Save and close |
+| `detail_close` | Close without save |
+| `lookup_select` | Confirm selection |
+| `lookup_discard` | Cancel selection |
+
+## Notifications and Dialogs
+```java
+@Autowired
+private Notifications notifications;
+
+@Autowired
+private Dialogs dialogs;
+
+// Notification
+notifications.create("Customer saved")
+        .withType(Notifications.Type.SUCCESS)
+        .show();
+
+// Confirmation dialog
+dialogs.createOptionDialog()
+        .withHeader("Confirm")
+        .withText("Delete customer?")
+        .withActions(
+            new DialogAction(DialogAction.Type.YES).withHandler(e -> delete()),
+            new DialogAction(DialogAction.Type.NO)
+        )
+        .open();
+```
+
+## DataContext
+Tracks entity changes in detail views:
+```java
+@ViewComponent
+private DataContext dataContext;
+
+// Check for changes
+boolean hasChanges = dataContext.hasChanges();
+
+// Get modified entities
+Collection<Object> modified = dataContext.getModified();
+
+// Merge external entity
+Customer merged = dataContext.merge(externalCustomer);
+
+// Discard changes
+dataContext.clear();
+```
+
+## @Subscribe Targets
+
+| Target | Description |
+|--------|-------------|
+| (default) | View lifecycle events |
+| `Target.DATA_CONTEXT` | PreCommit, PostCommit, Change |
+| `Target.DATA_LOADER` | PreLoad, PostLoad |
+| `Target.DATA_CONTAINER` | ItemChange, ItemPropertyChange |
+
+## Facets
+```xml
+<facets>
+    <dataLoadCoordinator auto="true"/>
+    <urlQueryParameters>
+        <genericFilter component="genericFilter"/>
+        <pagination component="pagination"/>
+    </urlQueryParameters>
+</facets>
+```
 
 ## Forbidden
 - Business logic in view controllers (move to services)
