@@ -1,4 +1,4 @@
-# AI_CONTEXT.md — Universal AI Context
+# Jmix Fullstack Project — Continue dev AI Rules
 
 ## Project
 - Type: Fullstack Jmix 2.7.x sample (Java 17, Spring Boot, Vaadin Flow)
@@ -7,7 +7,7 @@
 
 ## Architecture
 - Entity: `@JmixEntity`, UUID + `@JmixGeneratedValue`, `@Version`, `@InstanceName`
-- Data: `DataManager` (NOT EntityManager), fetch plans
+- Data: `DataManager` (NOT EntityManager)
 - UI: Vaadin Flow Views (XML + Java), `StandardListView` / `StandardDetailView`
 - Security: `@ResourceRole`, `@ViewPolicy`, `@MenuPolicy`
 - DB: Liquibase changelog (UUID PK, VERSION, include in `changelog.xml`)
@@ -61,13 +61,6 @@ Context-specific rules (apply when editing files in matching paths):
 - DTOs (`**/dto/**`): `.cursor/rules/007-dto-rule.mdc`
 - Enums: `.cursor/rules/008-enums-rule.mdc`
 - Fetch Plans: `.cursor/rules/009-fetchplans-rule.mdc`
-
-## Files by Vendor
-- Cursor: `.cursorrules`, `.cursor/rules/*.mdc`
-- Claude: `CLAUDE.md`
-- Codex/Agents: `AGENTS.md`
-- Copilot: `.github/copilot-instructions.md`
-- Continue.dev: `.continuerules`
 
 ## MCP (optional)
 - If `jmix-rag-mcp-search` is available, use it for Jmix-specific questions instead of web search.

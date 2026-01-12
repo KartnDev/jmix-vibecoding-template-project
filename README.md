@@ -27,6 +27,7 @@ Copy AI configuration files from this repository into your own Jmix projects.
 | [`AGENTS.md`](AGENTS.md) | OpenAI Codex | Instructions for autonomous agents |
 | [`AI_CONTEXT.md`](AI_CONTEXT.md) | Universal | Fallback context for any AI tool |
 | [`.github/copilot-instructions.md`](.github/copilot-instructions.md) | GitHub Copilot | VS Code Copilot instructions |
+| [`.continuerules`](.continuerules) | Continue.dev | VS Code / JetBrains extension |
 
 ## Skills (Detailed Guides)
 
