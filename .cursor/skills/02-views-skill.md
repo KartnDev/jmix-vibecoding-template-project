@@ -424,16 +424,41 @@ private Dialogs dialogs;
 // Notification
 notifications.create("Customer saved")
         .withType(Notifications.Type.SUCCESS)
+        .withPosition(Notification.Position.TOP_END)
         .show();
 
 // Confirmation dialog
 dialogs.createOptionDialog()
-        .withHeader("Confirm")
-        .withText("Delete customer?")
+        .withHeader("Confirm")           // NOT withCaption()!
+        .withText("Delete customer?")    // NOT withMessage()!
         .withActions(
             new DialogAction(DialogAction.Type.YES).withHandler(e -> delete()),
             new DialogAction(DialogAction.Type.NO)
         )
+        .open();                          // NOT .show()!
+
+// Input dialog
+dialogs.createInputDialog(this)
+        .withHeader("Enter Values")
+        .withParameters(
+            InputParameter.stringParameter("name").withLabel("Name").withRequired(true),
+            InputParameter.entityParameter("customer", Customer.class).withLabel("Customer")
+        )
+        .withActions(DialogActions.OK_CANCEL)
+        .withCloseListener(e -> {
+            if (e.closedWith(DialogOutcome.OK)) {
+                String name = e.getValue("name");
+            }
+        })
+        .open();
+```
+
+### ⚠️ Dialogs from Fragments
+```java
+// From fragment — MUST pass parent View, not 'this'!
+View<?> parentView = UiComponentUtils.getView(this);
+dialogs.createInputDialog(parentView)
+        .withHeader("...")
         .open();
 ```
 
@@ -475,6 +500,158 @@ dataContext.clear();
     </urlQueryParameters>
 </facets>
 ```
+
+## Fragments
+### Fragment Controller
+```java
+@FragmentDescriptor("address-fragment.xml")  // No @ViewController!
+public class AddressFragment extends Fragment<FormLayout> {
+    
+    @ViewComponent
+    private InstanceContainer<Address> addressDc;
+    
+    // Subscribe to HOST view events (fragments have no BeforeShow!)
+    @Subscribe(target = Target.HOST_CONTROLLER)
+    public void onHostBeforeShow(View.BeforeShowEvent event) {
+        // Load data when host view shows
+    }
+}
+```
+
+### Fragment XML
+```xml
+<fragment xmlns="http://jmix.io/schema/flowui/fragment">
+    <data>
+        <instance id="addressDc" class="Address" provided="true"/>
+    </data>
+    <content>
+        <formLayout dataContainer="addressDc">
+            <textField property="city"/>
+            <textField property="street"/>
+        </formLayout>
+    </content>
+</fragment>
+```
+
+### Using Fragment in View
+```xml
+<fragment id="addressFragment" 
+          class="com.company.view.AddressFragment"/>
+
+<!-- With properties -->
+<fragment class="com.company.view.AddressFragment">
+    <properties>
+        <property name="addressDc" value="customerAddressDc" type="CONTAINER_REF"/>
+    </properties>
+</fragment>
+```
+
+### Provided Data Containers
+Mark as `provided="true"` when data comes from host view:
+```xml
+<data>
+    <instance id="customerDc" class="Customer" provided="true">
+        <collection id="ordersDc" property="orders" provided="true"/>
+    </instance>
+</data>
+```
+
+## Layout Best Practices
+
+### Always Control Padding
+```xml
+<!-- ❌ Will have extra padding -->
+<vbox>
+    <dataGrid/>
+</vbox>
+
+<!-- ✅ Explicit padding control -->
+<vbox padding="false" spacing="true" margin="false">
+    <dataGrid/>
+</vbox>
+```
+
+### Buttons Panel
+```xml
+<!-- Buttons above DataGrid -->
+<hbox classNames="buttons-panel">
+    <button action="customersDataGrid.create"/>
+    <button action="customersDataGrid.edit"/>
+    <button action="customersDataGrid.remove"/>
+</hbox>
+<dataGrid id="customersDataGrid" .../>
+```
+
+### Sections with Headers → Details
+```xml
+<!-- Instead of groupBox, use details -->
+<details opened="true" summaryText="Contact Info">
+    <formLayout>
+        <textField property="email"/>
+        <textField property="phone"/>
+    </formLayout>
+</details>
+```
+
+### Form Layout
+```xml
+<formLayout width="100%" responsiveSteps="1, 2">
+    <textField label="Name" property="name"/>
+    <textField label="Email" property="email"/>
+</formLayout>
+```
+
+## DataGrid Inline Editing
+```xml
+<dataGrid editorBuffered="true">
+    <columns>
+        <column property="name" editable="true"/>
+        <column property="value" editable="true"/>
+        <editorActionsColumn>
+            <editButton icon="PENCIL"/>
+            <saveButton icon="CHECK"/>
+            <cancelButton icon="CLOSE"/>
+        </editorActionsColumn>
+    </columns>
+</dataGrid>
+```
+
+## Action enabledRule with External Dependency
+```java
+// When rule depends on OTHER component, refresh manually
+@Install(to = "ordersDataGrid.create", subject = "enabledRule")
+private boolean createEnabledRule() {
+    return customersDataGrid.getSelectedItems().size() == 1;
+}
+
+@Subscribe("customersDataGrid")
+public void onCustomersSelection(SelectionEvent<...> event) {
+    ordersDataGrid.getAction("create").refreshState();  // Re-evaluate rule
+}
+```
+
+## CUBA → Jmix API Changes
+
+| CUBA | Jmix |
+|------|------|
+| `@UiController` | `@ViewController` + `@Route` |
+| `@Inject` (UI) | `@ViewComponent` |
+| `@Inject` (beans) | `@Autowired` |
+| `AfterShowEvent` | `ReadyEvent` |
+| `StandardLookup` | `StandardListView` |
+| `StandardEditor` | `StandardDetailView` |
+| `GroupTable` | `DataGrid` |
+| `LookupField` | `EntityComboBox` |
+| `.withCaption()` | `.withHeader()` |
+| `.withMessage()` | `.withText()` |
+| `.show()` (dialogs) | `.open()` |
+| `StandardCloseAction.COMMIT` | `StandardOutcome.SAVE` |
+| `view="..."` (XML data) | `fetchPlan="..."` |
+| `screen="..."` (fragment) | `class="..."` |
+| `<buttonsPanel>` | `<hbox classNames="buttons-panel">` |
+| `<groupBox caption>` | `<details summaryText>` |
+| `<form>` | `<formLayout>` |
+| `caption=` | `label=` |
 
 ## Forbidden
 - Business logic in view controllers (move to services)

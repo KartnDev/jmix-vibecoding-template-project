@@ -33,6 +33,18 @@ Applies to `src/main/java/**/view/` and `src/main/resources/**/view/`
 - `ViewNavigators` — full navigation (URL changes)
 - `DialogWindows` — modal dialogs (no URL)
 
+## Fragments
+- Use `@FragmentDescriptor` (NOT `@ViewController`)
+- Include via `class=` attribute (NOT `screen=`)
+- `provided="true"` for data from host view
+- No BeforeShow → use `@Subscribe(target = Target.HOST_CONTROLLER)`
+
+## Layout Rules
+- Always set `padding="false"` on vbox/hbox
+- Buttons panel: `<hbox classNames="buttons-panel">`
+- Sections: `<details summaryText="...">` instead of groupBox
+- Forms: `<formLayout responsiveSteps="1, 2">`
+
 ## After Creating View
 1. Add menu entry in `menu.xml`
 2. Add messages for title/labels in `messages_en.properties`
