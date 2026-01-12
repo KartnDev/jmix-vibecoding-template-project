@@ -5,27 +5,20 @@ Applies to `src/main/java/**/security/`
 
 ## Resource Role Pattern
 ```java
-@ResourceRole(name = "Role Name", code = RoleName.CODE)
+import io.jmix.security.model.SecurityScope;
+import io.jmix.securityflowui.role.annotation.MenuPolicy; // Note package!
+import io.jmix.securityflowui.role.annotation.ViewPolicy; // Note package!
+
+@ResourceRole(name = "Role Name", code = RoleName.CODE, scope = SecurityScope.UI)
 public interface RoleName {
-    String CODE = "role-code";
-    
-    @EntityPolicy(entityClass = Entity.class, actions = EntityPolicyAction.ALL)
-    @EntityAttributePolicy(entityClass = Entity.class, attributes = "*", action = EntityAttributePolicyAction.MODIFY)
-    void entity();
-    
-    @ViewPolicy(viewIds = {"Entity.list", "Entity.detail"})
-    void views();
-    
-    @MenuPolicy(menuIds = {"Entity.list"})
-    void menu();
-}
+    // ...
 ```
 
 ## Policies
 - `@EntityPolicy` — CRUD operations
-- `@EntityAttributePolicy` — Attribute access (MODIFY/VIEW/HIDE)
-- `@ViewPolicy` — Screen access
-- `@MenuPolicy` — Menu item visibility
+- `@EntityAttributePolicy` — Attribute access (MODIFY/VIEW). Hidden by omission.
+- `@ViewPolicy` — Screen access (`io.jmix.securityflowui...`)
+- `@MenuPolicy` — Menu item visibility (`io.jmix.securityflowui...`)
 - `@SpecificPolicy` — Custom permissions
 
 ## Row-Level Security
@@ -33,7 +26,8 @@ public interface RoleName {
 - Use `{E}` for entity alias
 - Variables: `:current_user_username`
 
-## Forbidden
-- Hardcoded passwords/secrets
-- Bypassing security checks
-- Missing entity policies for views
+## Permission Checks in Code
+- Use `AccessManager` with contexts (e.g., `EntityOperationContext`, `SpecificOperationAccessContext`).
+- Call `accessManager.applyRegisteredConstraints(ctx)`.
+- Check `ctx.isPermitted()`.
+- DO NOT invent methods like `isEntityOpPermitted`.

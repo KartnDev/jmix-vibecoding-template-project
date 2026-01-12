@@ -11,12 +11,15 @@ import com.company.project.entity.Customer;
 import com.company.project.entity.Order;
 import io.jmix.security.model.EntityAttributePolicyAction;
 import io.jmix.security.model.EntityPolicyAction;
+import io.jmix.security.model.SecurityScope;
 import io.jmix.security.role.annotation.*;
+import io.jmix.securityflowui.role.annotation.MenuPolicy;
+import io.jmix.securityflowui.role.annotation.ViewPolicy;
 
-@ResourceRole(name = "Sales Manager", code = SalesManagerRole.CODE)
+@ResourceRole(name = "Sales Manager", code = SalesManagerRole.CODE, scope = SecurityScope.UI)
 public interface SalesManagerRole {
 
-    String CODE = "sales-manager";
+    String CODE = "app_SalesManager"; // Always use prefix!
 
     // Full access to Customer entity
     @EntityPolicy(entityClass = Customer.class, actions = EntityPolicyAction.ALL)
@@ -83,8 +86,11 @@ public interface SalesManagerRole {
 ```
 
 ### Hide Attributes
+Resource Roles are **additive**. To "hide" an attribute, simply **do not** include it in any `EntityAttributePolicy`. There is no explicit `HIDE` action.
+
 ```java
-@EntityAttributePolicy(entityClass = Customer.class, attributes = {"salary"}, action = EntityAttributePolicyAction.HIDE)
+// User sees only "name" and "email". "salary" is hidden by omission.
+@EntityAttributePolicy(entityClass = Customer.class, attributes = {"name", "email"}, action = EntityAttributePolicyAction.MODIFY)
 ```
 
 ## Row-Level Role (Data Filtering)
@@ -110,14 +116,20 @@ public interface SeeOwnOrdersRole {
 
 ## Predicate-Based Row-Level Policy
 ```java
+import io.jmix.security.role.annotation.RowLevelRole;
+import io.jmix.security.role.annotation.RowLevelBiPredicate;
+import org.springframework.context.ApplicationContext;
+
 @RowLevelRole(name = "Regional Manager", code = "regional-manager")
 public interface RegionalManagerRole {
 
-    @PredicateRowLevelPolicy(entityClass = Customer.class)
+    @PredicateRowLevelPolicy(entityClass = Customer.class, actions = RowLevelPolicyAction.READ)
     default RowLevelBiPredicate<Customer, ApplicationContext> customerPolicy() {
         return (customer, ctx) -> {
-            UserDetails user = ctx.getBean(CurrentAuthentication.class).getUser();
-            // Custom logic
+            // Note: Don't use heavy logic here (DB queries), it filters in-memory!
+            // Prefer JpqlRowLevelPolicy for DB filtering.
+            CurrentAuthentication authentication = ctx.getBean(CurrentAuthentication.class);
+            UserDetails user = authentication.getUser();
             return customer.getRegion().equals(getUserRegion(user));
         };
     }
@@ -129,13 +141,34 @@ public interface RegionalManagerRole {
 - `ui-minimal` — Minimal UI access (login, main screen)
 
 ## Checking Permissions in Code
+
+### Using AccessManager (Correct API)
+Jmix uses `AccessContext` objects to check permissions programmatically. Do not use invented methods like `isEntityOpPermitted`.
+
 ```java
+import io.jmix.core.AccessManager;
+import io.jmix.core.accesscontext.EntityOperationContext;
+import io.jmix.core.accesscontext.EntityAttributeContext;
+import io.jmix.security.accesscontext.SpecificOperationAccessContext;
+
 @Autowired
 private AccessManager accessManager;
 
-public void checkAccess(Order order) {
-    if (!accessManager.isEntityOpPermitted(Order.class, EntityOp.UPDATE)) {
-        throw new AccessDeniedException("order", "Cannot update order");
+public void checkAccess() {
+    // 1. Check Entity Operation (e.g., READ, CREATE, UPDATE, DELETE)
+    EntityOperationContext entityContext = new EntityOperationContext(Order.class, EntityOperationContext.ViewType.VIEW);
+    accessManager.applyRegisteredConstraints(entityContext);
+    
+    if (!entityContext.isPermitted()) {
+       throw new AccessDeniedException("perm", "Cannot view orders");
+    }
+
+    // 2. Check Specific Policy
+    SpecificOperationAccessContext specificContext = new SpecificOperationAccessContext("order.approve");
+    accessManager.applyRegisteredConstraints(specificContext);
+    
+    if (specificContext.isPermitted()) {
+        // Approve order
     }
 }
 ```
@@ -146,13 +179,7 @@ public void checkAccess(Order order) {
 @SpecificPolicy(resources = "order.approve")
 void approveOrder();
 
-// Check in code
-@Autowired
-private AccessManager accessManager;
-
-if (accessManager.isSpecificPermitted("order.approve")) {
-    // Allow action
-}
+// Check in code (see above)
 ```
 
 ## Checklist
