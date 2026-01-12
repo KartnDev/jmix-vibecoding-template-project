@@ -44,8 +44,9 @@ public class OrderRequest {
 
 ## Required Annotations (UI DTOs only)
 - `@JmixEntity(name = "app_DtoName")` — with prefix
-- `@JmixId` on ID field
+- `@JmixId` on ID field (NOT `@Id` — that's for JPA entities!)
 - `@InstanceName` on display field
+- `@JmixProperty(mandatory=true)` for required transient fields
 
 ## Creating UI DTOs
 - Use `dataManager.create(Dto.class)` (NOT `new Dto()`)

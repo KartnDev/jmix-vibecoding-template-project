@@ -168,12 +168,50 @@ public class Address {
 }
 
 // In entity:
+@EmbeddedParameters(nullAllowed = false)
 @Embedded
 @AttributeOverrides({
     @AttributeOverride(name = "city", column = @Column(name = "HOME_CITY")),
     @AttributeOverride(name = "street", column = @Column(name = "HOME_STREET"))
 })
 private Address homeAddress;
+```
+
+## Multiple Data Stores
+```java
+@Store(name = "archive")  // Must be defined in application.properties
+@JmixEntity
+@Table(name = "OLD_LOGS")
+@Entity(name = "archive_OldLog")  // Prefix with store name
+public class OldLog {
+    // ...
+}
+```
+Properties:
+```properties
+jmix.core.additional-stores=archive
+archive.datasource.url=jdbc:postgresql://localhost/archive_db
+```
+
+## Entity Naming for Modules
+```java
+@Table(name = "SALES_CUSTOMER")  // Table in DB
+@Entity(name = "sales_Customer")  // Entity name in metadata (with prefix)
+```
+
+## Inheritance
+```java
+@JmixEntity
+@Inheritance(strategy = InheritanceType.JOINED)
+@DiscriminatorColumn(name = "TYPE", discriminatorType = DiscriminatorType.STRING)
+@Table(name = "PARTNER")
+@Entity(name = "Partner")
+public class Partner { }
+
+@JmixEntity
+@Entity
+@DiscriminatorValue("SUPPLIER")
+public class Supplier extends Partner { }
 ```
 
 ## Transient/Calculated Fields

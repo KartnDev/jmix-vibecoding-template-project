@@ -65,9 +65,12 @@ public class CustomerSummaryDto {
 | Annotation | Purpose |
 |------------|---------|
 | `@JmixEntity` | Registers DTO in Jmix metadata (required for views) |
-| `@JmixId` | Marks ID field (can be any type) |
+| `@JmixId` | Marks ID field (NOT `@Id` — that's for JPA entities!) |
 | `@JmixGeneratedValue` | Auto-generates UUID |
 | `@InstanceName` | Display name in UI |
+| `@JmixProperty(mandatory=true)` | Required transient field (replaces CUBA's @MetaProperty) |
+
+**Note:** `@JmixProperty` is redundant without parameters (defaults to `mandatory=false`).
 
 ## DTO vs Entity
 

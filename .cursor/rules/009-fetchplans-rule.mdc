@@ -9,8 +9,13 @@ Applies to data loading operations
 
 ## Built-in Plans
 - `_local` / `FetchPlan.LOCAL` — all local attributes (non-references)
-- `_instance_name` / `FetchPlan.INSTANCE_NAME` — instance name attributes (may include refs, empty if no @InstanceName)
+- `_instance_name` / `FetchPlan.INSTANCE_NAME` — ONLY @InstanceName field(s)!
 - `_base` / `FetchPlan.BASE` — `_local` + `_instance_name` + embedded (use by default)
+
+## ⚠️ CUBA Migration
+CUBA `_minimal` ≠ Jmix `_instance_name`!
+- CUBA `_minimal` → use Jmix `_base` (loaded all local attrs)
+- Jmix `_instance_name` loads ONLY @InstanceName field
 
 ## Beans
 - `FetchPlans` — builder for creating fetch plans programmatically

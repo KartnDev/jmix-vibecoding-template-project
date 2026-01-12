@@ -16,10 +16,34 @@ import io.jmix.core.FetchMode;
 | Name | Constant | Description |
 |------|----------|-------------|
 | `_local` | `FetchPlan.LOCAL` | All local attributes (non-references) |
-| `_instance_name` | `FetchPlan.INSTANCE_NAME` | Attributes forming instance name (can include references). Empty if no `@InstanceName` defined |
+| `_instance_name` | `FetchPlan.INSTANCE_NAME` | ONLY `@InstanceName` field(s). Empty if not defined |
 | `_base` | `FetchPlan.BASE` | `_local` + `_instance_name` + embedded references |
 
 **Best Practice:** Use `_base` by default until you face performance issues with large lists.
+
+## ⚠️ CUBA Migration: _minimal vs _instance_name
+
+**CRITICAL:** CUBA's `_minimal` ≠ Jmix's `_instance_name`!
+
+```java
+// CUBA: _minimal loaded ALL local attributes (same as _local)
+// Jmix: _instance_name loads ONLY @InstanceName field!
+
+@JmixEntity
+public class Customer {
+    @InstanceName
+    private String name;      // ✅ loaded with _instance_name
+    
+    private String email;     // ❌ NOT loaded with _instance_name
+    private String phone;     // ❌ NOT loaded with _instance_name
+}
+```
+
+| CUBA View | Jmix FetchPlan | Behavior Change |
+|-----------|----------------|-----------------|
+| `_minimal` | `_base` | Use _base to get same behavior! |
+| `_local` | `_base` | Same |
+| `_instance-name` | `_instance_name` | Same |
 
 ## Fetch Plan in XML (Repository)
 Create `fetch-plans.xml` in `src/main/resources/.../`:

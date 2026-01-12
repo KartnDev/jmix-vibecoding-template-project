@@ -25,8 +25,13 @@ Applies to `src/main/java/**/entity/`
 ## Optional Fields
 - Audit: `@CreatedBy`, `@CreatedDate`, `@LastModifiedBy`, `@LastModifiedDate`
 - Soft delete: `@DeletedBy`, `@DeletedDate`
-- Embedded: `@Embedded` + `@Embeddable` class
-- Transient: `@JmixProperty` + `@Transient` on getter
+- Embedded: `@Embedded` + `@EmbeddedParameters(nullAllowed=false)` + `@Embeddable` class
+- Transient: `@JmixProperty(mandatory=true)` + `@Transient` on getter
+- Multi-store: `@Store(name = "storeName")` + prefix in `@Entity(name = "store_EntityName")`
+
+## Inheritance
+- Use JPA `@Inheritance(strategy = InheritanceType.JOINED)`
+- Add `@DiscriminatorColumn` + `@DiscriminatorValue`
 
 ## Validation
 - `@NotNull`, `@Email`, `@Size`, `@Pattern`
