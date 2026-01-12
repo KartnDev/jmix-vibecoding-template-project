@@ -339,7 +339,7 @@ testImplementation 'io.jmix.flowui:jmix-flowui-test-assist'
 - `@Transactional` on test classes/methods (breaks Jmix DataManager)
 - `@MockBean` (deprecated since Spring Boot 3.4+, use `@MockitoBean`)
 - `@WithUserDetails` (use `SystemAuthenticator` instead)
-- `@Autowired` beans in E2E tests (breaks thread/transaction model)
+- `@Autowired` internal services in E2E tests (use WebTestClient/RestAssured instead)
 - Cleanup at end of test method (use `@AfterEach`)
 - Hardcoded UUIDs
 - `System.out.println` (use Logger)

@@ -28,7 +28,8 @@ class MyServiceTest {
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 @Testcontainers
 class MyApiE2ETest {
-    // Use RestAssured/WebTestClient, NOT @Autowired beans
+    @Autowired WebTestClient webClient;  // OK for test clients
+    // Do NOT @Autowired internal services (breaks isolation)
 }
 ``` 
 
@@ -49,7 +50,7 @@ Or Selenide / Selenium tests for smoke testing you application
 - `@Transactional` on tests (Jmix DataManager manages its own)
 - `@MockBean` (deprecated, use `@MockitoBean`)
 - `@WithUserDetails` (use `SystemAuthenticator`)
-- `@Autowired` beans in E2E tests (breaks isolation)
+- `@Autowired` internal services in E2E (use WebTestClient/RestAssured)
 - Cleanup at end of test method
 - `System.out.println`
 - Hardcoded UUIDs
