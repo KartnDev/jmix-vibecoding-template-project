@@ -52,14 +52,15 @@ Located in [`.cursor/rules/`](.cursor/rules/):
 
 | File | Scope |
 |------|-------|
-| `jmix-entities.mdc` | `**/entity/**` |
-| `jmix-views.mdc` | `**/view/**` |
-| `jmix-security.mdc` | `**/security/**` |
-| `jmix-services.mdc` | `**/service/**` |
-| `jmix-dto.mdc` | `**/dto/**` |
-| `jmix-enums.mdc` | Enum files |
-| `jmix-fetchplans.mdc` | Data loading |
-| `jmix-liquibase.mdc` | `**/liquibase/**` |
+| `001-entities-rule.mdc` | `**/entity/**` |
+| `002-views-rule.mdc` | `**/view/**` |
+| `003-services-rule.mdc` | `**/service/**` |
+| `004-security-rule.mdc` | `**/security/**` |
+| `005-testing-rule.mdc` | `**/test/**` |
+| `006-liquibase-rule.mdc` | `**/liquibase/**` |
+| `007-dto-rule.mdc` | `**/dto/**` |
+| `008-enums-rule.mdc` | Enum files |
+| `009-fetchplans-rule.mdc` | Data loading |
 
 ## Project Structure
 

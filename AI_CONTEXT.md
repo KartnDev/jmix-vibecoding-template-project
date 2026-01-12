@@ -52,14 +52,15 @@ Detailed guides (read when performing specific tasks):
 - Fetch Plans: `.cursor/skills/09-fetchplans-skill.md`
 
 Context-specific rules (apply when editing files in matching paths):
-- Entities (`**/entity/**`): `.cursor/rules/jmix-entities.mdc`
-- Views (`**/view/**`): `.cursor/rules/jmix-views.mdc`
-- Security (`**/security/**`): `.cursor/rules/jmix-security.mdc`
-- Services (`**/service/**`): `.cursor/rules/jmix-services.mdc`
-- DTOs (`**/dto/**`): `.cursor/rules/jmix-dto.mdc`
-- Enums: `.cursor/rules/jmix-enums.mdc`
-- Fetch Plans: `.cursor/rules/jmix-fetchplans.mdc`
-- Liquibase (`**/liquibase/**`): `.cursor/rules/jmix-liquibase.mdc`
+- Entities (`**/entity/**`): `.cursor/rules/001-entities-rule.mdc`
+- Views (`**/view/**`): `.cursor/rules/002-views-rule.mdc`
+- Services (`**/service/**`): `.cursor/rules/003-services-rule.mdc`
+- Security (`**/security/**`): `.cursor/rules/004-security-rule.mdc`
+- Testing (`**/test/**`): `.cursor/rules/005-testing-rule.mdc`
+- Liquibase (`**/liquibase/**`): `.cursor/rules/006-liquibase-rule.mdc`
+- DTOs (`**/dto/**`): `.cursor/rules/007-dto-rule.mdc`
+- Enums: `.cursor/rules/008-enums-rule.mdc`
+- Fetch Plans: `.cursor/rules/009-fetchplans-rule.mdc`
 
 ## Files by Vendor
 - Cursor: `.cursorrules`, `.cursor/rules/*.mdc`

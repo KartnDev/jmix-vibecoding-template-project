@@ -12,53 +12,71 @@ Creating database changelogs for Jmix entities.
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
 
-    <changeSet id="1" author="dev">
+    <changeSet id="020-customer-1" author="yourproject">
         <createTable tableName="CUSTOMER">
-            <column name="ID" type="UUID">
+            <column name="ID" type="${uuid.type}">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="VERSION" type="INT">
+            <column name="VERSION" type="int">
                 <constraints nullable="false"/>
             </column>
-            <column name="NAME" type="VARCHAR(255)">
+            <column name="NAME" type="varchar(255)">
                 <constraints nullable="false"/>
             </column>
-            <column name="EMAIL" type="VARCHAR(255)"/>
-            <column name="CREATED_BY" type="VARCHAR(255)"/>
-            <column name="CREATED_DATE" type="TIMESTAMP"/>
-            <column name="LAST_MODIFIED_BY" type="VARCHAR(255)"/>
-            <column name="LAST_MODIFIED_DATE" type="TIMESTAMP"/>
+            <column name="EMAIL" type="varchar(255)"/>
+            <column name="CREATED_BY" type="varchar(255)"/>
+            <column name="CREATED_DATE" type="timestamp"/>
+            <column name="LAST_MODIFIED_BY" type="varchar(255)"/>
+            <column name="LAST_MODIFIED_DATE" type="timestamp"/>
         </createTable>
+        <rollback>
+            <dropTable tableName="CUSTOMER"/>
+        </rollback>
     </changeSet>
 
 </databaseChangeLog>
 ```
 
+## Changeset ID Convention
+- **Format:** `NNN-entity-N` (e.g., `020-customer-1`) or `YYYYMMDD-HHMM-topic`
+- **Must be globally unique** across all changelog files
+- **Author:** Use project name or your username (NOT generic `dev`)
+- **Never modify applied changesets** — create new ones instead
+
 ## Column Types
 
 | Java Type | Liquibase Type |
 |-----------|----------------|
-| UUID | `UUID` |
-| String | `VARCHAR(n)` |
-| Integer | `INT` |
-| Long | `BIGINT` |
-| BigDecimal | `DECIMAL(p,s)` |
-| Boolean | `BOOLEAN` |
-| LocalDate | `DATE` |
-| LocalDateTime | `TIMESTAMP` |
-| LocalTime | `TIME` |
-| byte[] | `BLOB` |
-| Enum | `VARCHAR(50)` or `INT` |
+| UUID | `${uuid.type}` (cross-database!) |
+| String | `varchar(n)` |
+| Integer | `int` |
+| Long | `bigint` |
+| BigDecimal | `decimal(p,s)` |
+| Boolean | `boolean` |
+| LocalDate | `date` |
+| LocalDateTime | `timestamp` |
+| LocalTime | `time` |
+| byte[] | `blob` |
+| Enum | `varchar(50)` or `int` |
 
 ## Required Columns
 Every Jmix entity table must have:
 ```xml
-<column name="ID" type="UUID">
+<column name="ID" type="${uuid.type}">
     <constraints primaryKey="true" nullable="false"/>
 </column>
-<column name="VERSION" type="INT">
+<column name="VERSION" type="int">
     <constraints nullable="false"/>
 </column>
+```
+
+## Audit Columns (Optional)
+If entity uses `@CreatedBy`, `@LastModifiedBy` etc.:
+```xml
+<column name="CREATED_BY" type="varchar(255)"/>
+<column name="CREATED_DATE" type="timestamp"/>
+<column name="LAST_MODIFIED_BY" type="varchar(255)"/>
+<column name="LAST_MODIFIED_DATE" type="timestamp"/>
 ```
 
 ## Foreign Keys
@@ -152,8 +170,42 @@ Avoid SQL reserved words for table names. If unavoidable, suffix with underscore
 - [ ] Included in `changelog.xml`
 - [ ] Changeset IDs are unique
 
+## Context (Environment-Specific)
+Use `context` to control which changesets run in which environments:
+```xml
+<!-- Only runs in dev -->
+<changeSet id="030-testdata-1" author="yourproject" context="dev">
+    <insert tableName="CUSTOMER">...</insert>
+</changeSet>
+
+<!-- Exclude from production -->
+<changeSet id="030-testdata-2" author="yourproject" context="!prod">
+    ...
+</changeSet>
+```
+
+Configure in `application.properties`:
+```properties
+spring.liquibase.contexts=dev
+```
+
+## Rollback Strategy
+Always provide explicit rollback for DDL:
+```xml
+<changeSet id="020-customer-1" author="yourproject">
+    <createTable tableName="CUSTOMER">...</createTable>
+    <rollback>
+        <dropTable tableName="CUSTOMER"/>
+    </rollback>
+</changeSet>
+```
+
+**For production fixes:** Never modify applied changesets. Create compensating changesets instead.
+
 ## Forbidden
+- `type="UUID"` (use `${uuid.type}` for cross-DB)
+- `id="1"` without file prefix (collision risk)
+- `author="dev"` (use meaningful name)
 - Auto-increment IDs (use UUID)
 - Missing VERSION column
-- Same changeset ID in different files
 - Modifying already-applied changesets
