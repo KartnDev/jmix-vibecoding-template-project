@@ -112,6 +112,8 @@ Add include in `changelog.xml`:
 <include file="020-customer.xml" relativeToChangelogFile="true"/>
 ```
 
+But user also can generate changelog by using Jmix Studio on his own.
+
 ## Messages
 Add to `messages_en.properties`:
 ```properties
@@ -133,4 +135,4 @@ com.company.project.entity/Customer.email=Email
 - Lombok annotations (`@Data`, `@Getter`, etc.)
 - Field `@Autowired`
 - `@GeneratedValue` (use `@JmixGeneratedValue`)
-- EntityManager usage
+- EntityManager usage (w/o necessary transactions)
