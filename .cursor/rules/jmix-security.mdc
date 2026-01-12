@@ -1,0 +1,19 @@
+# Jmix Security Rules (Cursor)
+
+## Scope
+Applies to `src/main/java/**/security/`
+
+## Patterns
+- `@ResourceRole` for entity/view/menu policies
+- `@EntityPolicy`, `@EntityAttributePolicy`
+- `@ViewPolicy`, `@MenuPolicy`
+- Row-level: `@RowLevelRole`, `@JpqlRowLevelPolicy`, `@PredicatePolicy`
+
+## Forbidden
+- Hardcoded passwords/secrets
+- Bypassing security checks
+
+## Checklist
+- Role code constant defined
+- Entity policies set (CRUD level)
+- View/Menu policies set

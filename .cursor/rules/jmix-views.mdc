@@ -1,0 +1,26 @@
+# Jmix Views Rules (Cursor)
+
+## Scope
+Applies to `src/main/java/**/view/` and `src/main/resources/**/view/`
+
+## Patterns (List)
+- Java: `StandardListView<Entity>`
+- XML: data containers + dataLoadCoordinator
+- Actions: create/edit/remove
+- Menu entry in `menu.xml`
+- Messages for titles/labels
+
+## Patterns (Detail)
+- Java: `StandardDetailView<Entity>`
+- XML: `instance` container, form fields, save/close actions
+- Validators in controller (`@Subscribe` events)
+
+## Components
+- Use `@ViewComponent` for UI injection
+- Use `@Subscribe` for events
+- Use data containers for binding
+
+## Forbidden
+- Business logic in controllers (keep in services)
+- EntityManager usage
+- Transactions in views

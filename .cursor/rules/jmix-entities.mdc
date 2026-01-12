@@ -1,0 +1,30 @@
+# Jmix Entity Rules (Cursor)
+
+## Scope
+Applies to `src/main/java/**/entity/`
+
+## Patterns
+- `@JmixEntity` + `@Entity`
+- ID: `UUID @JmixGeneratedValue`
+- `@Version` required
+- `@InstanceName` on display field
+- No Lombok
+
+## Relationships
+- `@ManyToOne(fetch = LAZY) @JoinColumn(...)`
+- `@OneToMany(mappedBy = "...")`
+- Composition: `@Composition @OnDelete(DeletePolicy.CASCADE)`
+
+## Validation
+- Use `@NotNull`, `@Email`, `@Size`, etc.
+
+## Liquibase
+- Create changelog in `.../liquibase/changelog/`
+- UUID PK, VERSION column
+- Add include to `changelog.xml`
+- Add messages to `messages_en.properties`
+
+## Forbidden
+- Lombok (`@Data`, etc.)
+- Field `@Autowired`
+- `@GeneratedValue` (use `@JmixGeneratedValue`)
