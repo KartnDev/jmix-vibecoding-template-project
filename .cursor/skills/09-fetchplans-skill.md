@@ -347,4 +347,3 @@ private Customer customer;
 - Loading without fetch plan (N+1 problem)
 - Deep nesting (>3 levels) without reason
 - Using fetch plans as security mechanism
-- Field injection (`@Autowired` on fields)

@@ -81,15 +81,15 @@ If entity uses `@CreatedBy`, `@LastModifiedBy` etc.:
 
 ## Foreign Keys
 ```xml
-<changeSet id="2" author="dev">
+<changeSet id="020-order-1" author="project">
     <createTable tableName="ORDER_">
-        <column name="ID" type="UUID">
+        <column name="ID" type="${uuid.type}">
             <constraints primaryKey="true" nullable="false"/>
         </column>
-        <column name="VERSION" type="INT">
+        <column name="VERSION" type="int">
             <constraints nullable="false"/>
         </column>
-        <column name="CUSTOMER_ID" type="UUID">
+        <column name="CUSTOMER_ID" type="${uuid.type}">
             <constraints nullable="false"/>
         </column>
     </createTable>

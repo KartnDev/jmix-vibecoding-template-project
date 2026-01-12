@@ -68,4 +68,3 @@ List<Order> findByStatus(OrderStatus status, FetchPlan fetchPlan);
 - Loading without fetch plan in loops
 - Deep nesting (>3 levels) without reason
 - Using fetch plans as security mechanism
-- Field injection (`@Autowired`)

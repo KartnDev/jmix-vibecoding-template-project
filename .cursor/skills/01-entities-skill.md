@@ -239,18 +239,18 @@ Create in `src/main/resources/.../liquibase/changelog/`:
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <databaseChangeLog ...>
-    <changeSet id="1" author="dev">
+    <changeSet id="020-customer-1" author="project">
         <createTable tableName="CUSTOMER">
-            <column name="ID" type="UUID">
+            <column name="ID" type="${uuid.type}">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="VERSION" type="INT">
+            <column name="VERSION" type="int">
                 <constraints nullable="false"/>
             </column>
-            <column name="NAME" type="VARCHAR(255)">
+            <column name="NAME" type="varchar(255)">
                 <constraints nullable="false"/>
             </column>
-            <column name="EMAIL" type="VARCHAR(255)"/>
+            <column name="EMAIL" type="varchar(255)"/>
         </createTable>
     </changeSet>
 </databaseChangeLog>
@@ -261,7 +261,7 @@ Add include in `changelog.xml`:
 <include file="020-customer.xml" relativeToChangelogFile="true"/>
 ```
 
-But user also can generate changelog by using Jmix Studio on his own.
+**Note:** Use `${uuid.type}` for cross-database compatibility. User can also generate changelog via Jmix Studio.
 
 ## Messages
 Add to `messages_en.properties`:

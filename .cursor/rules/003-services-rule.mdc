@@ -49,7 +49,6 @@ List<User> findByEmail(String email, FetchPlan fetchPlan);
 - `TransactionTemplate` for programmatic control (when AOP fails)
 
 ## Forbidden
-- Field `@Autowired` (use constructor injection)
 - `EntityManager` without `@Transactional`
 - Business logic in views
 - Raw `JpaRepository` (use `JmixDataRepository`)

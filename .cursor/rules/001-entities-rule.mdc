@@ -45,5 +45,5 @@ Applies to `src/main/java/**/entity/`
 - Lombok (`@Data`, `@Getter`, etc.) - any annotations firbidden
 - `@GeneratedValue` (use `@JmixGeneratedValue`)
 - `FetchType.EAGER` on relationships
-- EntityManager for regular CRUD
+- EntityManager for regular CRUD (use DataManager)
 - Business logic in entities

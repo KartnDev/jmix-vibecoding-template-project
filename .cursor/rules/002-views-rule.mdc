@@ -42,8 +42,8 @@ Applies to `src/main/java/**/view/` and `src/main/resources/**/view/`
 ## Layout Rules
 - Always set `padding="false"` on vbox/hbox
 - Buttons panel: `<hbox classNames="buttons-panel">`
-- Sections: `<details summaryText="...">` instead of groupBox
-- Forms: `<formLayout responsiveSteps="1, 2">`
+- Sections: `<details summaryText="...">` instead for grouping
+- Forms: `<formLayout responsiveSteps="...">`
 
 ## After Creating View
 1. Add menu entry in `menu.xml`

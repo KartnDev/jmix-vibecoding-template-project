@@ -31,7 +31,7 @@ import io.jmix.core.metamodel.annotation.InstanceName;
 import java.math.BigDecimal;
 import java.util.UUID;
 
-@JmixEntity(name = "CustomerSummaryDto")
+@JmixEntity(name = "app_CustomerSummaryDto")  // Always use prefix!
 public class CustomerSummaryDto {
 
     @JmixId
@@ -114,7 +114,7 @@ public class ReportService {
 
 ## DTO for REST API
 ```java
-@JmixEntity(name = "OrderRequest")
+@JmixEntity(name = "app_OrderRequest")
 public class OrderRequest {
 
     @JmixId
