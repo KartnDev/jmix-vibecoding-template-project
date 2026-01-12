@@ -1,5 +1,7 @@
 ---
-alwaysApply: true
+description: Rules for configuring access control with Resource Roles and Row-Level Roles
+globs: ["**/security/**"]
+alwaysApply: false
 ---
 
 # Jmix Security Rules

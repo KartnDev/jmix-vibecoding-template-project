@@ -1,5 +1,6 @@
 ---
-alwaysApply: true
+description: Rules for configuring fetch plans and data loading in Jmix
+alwaysApply: false
 ---
 
 # Jmix Fetch Plans Rules

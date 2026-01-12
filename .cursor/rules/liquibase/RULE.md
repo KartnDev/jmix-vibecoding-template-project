@@ -1,5 +1,7 @@
 ---
-alwaysApply: true
+description: Rules for creating database changelogs for Jmix entities
+globs: ["**/liquibase/**"]
+alwaysApply: false
 ---
 
 # Jmix Liquibase Rules

@@ -1,5 +1,7 @@
 ---
-alwaysApply: true
+description: Rules for creating DTOs for API responses, reports, and non-persistent data
+globs: ["**/dto/**"]
+alwaysApply: false
 ---
 
 # Jmix DTO Rules

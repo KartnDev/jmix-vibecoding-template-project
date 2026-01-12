@@ -1,3 +1,9 @@
+---
+description: Rules for writing reliable tests for Jmix applications
+globs: ["**/test/**"]
+alwaysApply: false
+---
+
 # Jmix Testing Rules
 
 ## Scope

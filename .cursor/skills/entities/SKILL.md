@@ -1,7 +1,14 @@
-# Skill: Entities
+---
+name: entities
+description: Creating JPA entities with Jmix annotations — @JmixEntity, @InstanceName, @Version, relationships, and proper patterns.
+---
 
-## Description
-Creating JPA entities with Jmix annotations for proper integration with the framework.
+# Entities
+
+## When to Use
+- When creating a new database-backed entity
+- When adding relationships between entities
+- When you need to understand Jmix entity annotations
 
 ## Imports
 ```java
@@ -187,17 +194,6 @@ public class OldLog {
     // ...
 }
 ```
-Properties:
-```properties
-jmix.core.additional-stores=archive
-archive.datasource.url=jdbc:postgresql://localhost/archive_db
-```
-
-## Entity Naming for Modules
-```java
-@Table(name = "SALES_CUSTOMER")  // Table in DB
-@Entity(name = "sales_Customer")  // Entity name in metadata (with prefix)
-```
 
 ## Inheritance
 ```java
@@ -222,7 +218,6 @@ public BigDecimal getTotal() {
     return price.multiply(BigDecimal.valueOf(quantity));
 }
 ```
-`@JmixProperty` exposes transient getter to Jmix metadata (UI, filters).
 
 ## Validation Annotations
 ```java
@@ -256,13 +251,6 @@ Create in `src/main/resources/.../liquibase/changelog/`:
 </databaseChangeLog>
 ```
 
-Add include in `changelog.xml`:
-```xml
-<include file="020-customer.xml" relativeToChangelogFile="true"/>
-```
-
-**Note:** Use `${uuid.type}` for cross-database compatibility. User can also generate changelog via Jmix Studio.
-
 ## Messages
 Add to `messages_en.properties`:
 ```properties
@@ -280,43 +268,9 @@ com.company.project.entity/Customer.email=Email
 - [ ] Changelog included in `changelog.xml`
 - [ ] Messages added
 
-## equals() and hashCode()
-**Recommendation:** Don't override unless necessary.
-
-If needed, use ID-based with stable hashCode:
-```java
-@Override
-public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
-    Customer that = (Customer) o;
-    return id != null && id.equals(that.id);
-}
-
-@Override
-public int hashCode() {
-    return getClass().hashCode();  // Stable for Hibernate collections
-}
-```
-
-## Entity Events
-Prefer Spring `@EventListener` over JPA `@PrePersist`/`@PostLoad`:
-```java
-@Component
-public class OrderEntityListener {
-    @EventListener
-    public void onBeforeSave(EntitySavingEvent<Order> event) {
-        Order order = event.getEntity();
-        // business logic
-    }
-}
-```
-
 ## Forbidden
 - Lombok annotations (`@Data`, `@Getter`, etc.)
-- Field `@Autowired`
 - `@GeneratedValue` (use `@JmixGeneratedValue`)
 - `@PostConstruct` in entities (not Spring beans)
 - `FetchType.EAGER` on relationships
 - EntityManager for regular CRUD (use DataManager)
-- Business logic in entity methods

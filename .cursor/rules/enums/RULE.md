@@ -1,5 +1,7 @@
 ---
-alwaysApply: true
+description: Rules for creating enumerations with EnumClass interface for Jmix
+globs: ["**/entity/**"]
+alwaysApply: false
 ---
 
 # Jmix Enum Rules

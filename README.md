@@ -31,37 +31,38 @@ Copy AI configuration files from this repository into your own Jmix projects.
 
 ## Skills (Detailed Guides)
 
-Located in [`.cursor/skills/`](.cursor/skills/):
+Located in [`.cursor/skills/`](.cursor/skills/) — each skill is a folder with `SKILL.md`:
 
-| File | Topic |
-|------|-------|
-| `00-jmix-overview.md` | What is Jmix (vs Spring Boot) |
-| `01-entities-skill.md` | How to create entities |
-| `02-views-skill.md` | How to create UI views |
-| `03-services-skill.md` | Business logic & DataManager |
-| `04-security-skill.md` | Roles & policies |
-| `05-testing-skill.md` | Unit & UI testing |
-| `06-liquibase-skill.md` | Database migrations |
-| `07-dto-skill.md` | Data Transfer Objects |
-| `08-enums-skill.md` | Enumerations with EnumClass |
-| `09-fetchplans-skill.md` | Lazy loading & fetch plans |
+| Folder | Topic |
+|--------|-------|
+| `jmix-overview/` | What is Jmix (vs Spring Boot) |
+| `entities/` | How to create entities |
+| `views/` | How to create UI views |
+| `services/` | Business logic & DataManager |
+| `security/` | Roles & policies |
+| `testing/` | Unit & UI testing |
+| `liquibase/` | Database migrations |
+| `dto/` | Data Transfer Objects |
+| `enums/` | Enumerations with EnumClass |
+| `fetchplans/` | Lazy loading & fetch plans |
 
 
 ## Rules (Context-Specific)
 
-Located in [`.cursor/rules/`](.cursor/rules/):
+Located in [`.cursor/rules/`](.cursor/rules/) — each rule is a folder with `RULE.md`:
 
-| File | Scope |
-|------|-------|
-| `001-entities-rule.mdc` | `**/entity/**` |
-| `002-views-rule.mdc` | `**/view/**` |
-| `003-services-rule.mdc` | `**/service/**` |
-| `004-security-rule.mdc` | `**/security/**` |
-| `005-testing-rule.mdc` | `**/test/**` |
-| `006-liquibase-rule.mdc` | `**/liquibase/**` |
-| `007-dto-rule.mdc` | `**/dto/**` |
-| `008-enums-rule.mdc` | Enum files |
-| `009-fetchplans-rule.mdc` | Data loading |
+| Folder | Scope |
+|--------|-------|
+| `jmix-overview/` | Always applies |
+| `entities/` | `**/entity/**` |
+| `views/` | `**/view/**` |
+| `services/` | `**/service/**` |
+| `security/` | `**/security/**` |
+| `testing/` | `**/test/**` |
+| `liquibase/` | `**/liquibase/**` |
+| `dto/` | `**/dto/**` |
+| `enums/` | Enum files |
+| `fetchplans/` | Data loading |
 
 ## Project Structure
 

@@ -1,6 +1,9 @@
 ---
-alwaysApply: true
+description: Rules for creating Vaadin Flow UI views with XML descriptors and Java controllers
+globs: ["**/view/**"]
+alwaysApply: false
 ---
+
 # Jmix Views Rules
 
 ## Scope

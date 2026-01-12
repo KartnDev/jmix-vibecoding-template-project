@@ -1,5 +1,7 @@
 ---
-alwaysApply: true
+description: Rules for creating business logic services with proper Jmix patterns
+globs: ["**/service/**", "**/repository/**"]
+alwaysApply: false
 ---
 
 # Jmix Services Rules

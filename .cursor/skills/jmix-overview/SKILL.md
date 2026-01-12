@@ -1,4 +1,14 @@
-# Skill: Jmix Overview
+---
+name: jmix-overview
+description: Understanding Jmix framework basics — what makes it different from plain Spring Boot and key concepts to know.
+---
+
+# Jmix Overview
+
+## When to Use
+- When you need to understand what Jmix is and how it differs from Spring Boot
+- When you're new to the project and need context
+- When deciding which Jmix component to use
 
 ## What is Jmix
 High-productivity platform (Spring Boot + Vaadin Flow) for enterprise applications.

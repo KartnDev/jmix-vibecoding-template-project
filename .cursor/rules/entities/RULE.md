@@ -1,6 +1,9 @@
 ---
-alwaysApply: true
+description: Rules for creating JPA entities with Jmix annotations
+globs: ["**/entity/**"]
+alwaysApply: false
 ---
+
 # Jmix Entity Rules
 
 ## Scope
@@ -42,7 +45,7 @@ Applies to `src/main/java/**/entity/`
 3. Add messages to `messages_en.properties`
 
 ## Forbidden
-- Lombok (`@Data`, `@Getter`, etc.) - any annotations firbidden
+- Lombok (`@Data`, `@Getter`, etc.) - any annotations forbidden
 - `@GeneratedValue` (use `@JmixGeneratedValue`)
 - `FetchType.EAGER` on relationships
 - EntityManager for regular CRUD (use DataManager)

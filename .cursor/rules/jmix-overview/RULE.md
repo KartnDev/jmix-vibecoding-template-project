@@ -1,4 +1,5 @@
 ---
+description: General Jmix coding guidelines — applies to all code in Jmix project
 alwaysApply: true
 ---
 

@@ -40,27 +40,27 @@
 
 ## References
 Detailed guides (read when performing specific tasks):
-- Jmix overview: `.cursor/skills/00-jmix-overview.md`
-- Entity creation: `.cursor/skills/01-entities-skill.md`
-- View creation: `.cursor/skills/02-views-skill.md`
-- Services: `.cursor/skills/03-services-skill.md`
-- Security: `.cursor/skills/04-security-skill.md`
-- Testing: `.cursor/skills/05-testing-skill.md`
-- Liquibase: `.cursor/skills/06-liquibase-skill.md`
-- DTOs: `.cursor/skills/07-dto-skill.md`
-- Enums: `.cursor/skills/08-enums-skill.md`
-- Fetch Plans: `.cursor/skills/09-fetchplans-skill.md`
+- Jmix overview: `.cursor/skills/jmix-overview/SKILL.md`
+- Entity creation: `.cursor/skills/entities/SKILL.md`
+- View creation: `.cursor/skills/views/SKILL.md`
+- Services: `.cursor/skills/services/SKILL.md`
+- Security: `.cursor/skills/security/SKILL.md`
+- Testing: `.cursor/skills/testing/SKILL.md`
+- Liquibase: `.cursor/skills/liquibase/SKILL.md`
+- DTOs: `.cursor/skills/dto/SKILL.md`
+- Enums: `.cursor/skills/enums/SKILL.md`
+- Fetch Plans: `.cursor/skills/fetchplans/SKILL.md`
 
 Context-specific rules (apply when editing files in matching paths):
-- Entities (`**/entity/**`): `.cursor/rules/001-entities-rule.mdc`
-- Views (`**/view/**`): `.cursor/rules/002-views-rule.mdc`
-- Services (`**/service/**`): `.cursor/rules/003-services-rule.mdc`
-- Security (`**/security/**`): `.cursor/rules/004-security-rule.mdc`
-- Testing (`**/test/**`): `.cursor/rules/005-testing-rule.mdc`
-- Liquibase (`**/liquibase/**`): `.cursor/rules/006-liquibase-rule.mdc`
-- DTOs (`**/dto/**`): `.cursor/rules/007-dto-rule.mdc`
-- Enums: `.cursor/rules/008-enums-rule.mdc`
-- Fetch Plans: `.cursor/rules/009-fetchplans-rule.mdc`
+- Entities (`**/entity/**`): `.cursor/rules/entities/RULE.md`
+- Views (`**/view/**`): `.cursor/rules/views/RULE.md`
+- Services (`**/service/**`): `.cursor/rules/services/RULE.md`
+- Security (`**/security/**`): `.cursor/rules/security/RULE.md`
+- Testing (`**/test/**`): `.cursor/rules/testing/RULE.md`
+- Liquibase (`**/liquibase/**`): `.cursor/rules/liquibase/RULE.md`
+- DTOs (`**/dto/**`): `.cursor/rules/dto/RULE.md`
+- Enums: `.cursor/rules/enums/RULE.md`
+- Fetch Plans: `.cursor/rules/fetchplans/RULE.md`
 
 ## Files by Vendor
 - Cursor: `.cursorrules`, `.cursor/rules/*.mdc`
