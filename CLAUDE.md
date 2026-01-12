@@ -38,5 +38,16 @@
 - Business logic in views
 - Edits in `frontend/generated/`
 
+## References
+Detailed guides (read when performing specific tasks):
+- Jmix overview: `docs/skills/00-jmix-overview.md`
+- Entity creation: `docs/skills/01-entities-skill.md`
+- View creation: `docs/skills/02-views-skill.md`
+- Services: `docs/skills/03-services-skill.md`
+- Security: `docs/skills/04-security-skill.md`
+- Testing: `docs/skills/05-testing-skill.md`
+- Liquibase: `docs/skills/06-liquibase-skill.md`
+
 ## MCP (optional)
-If `jmix-rag-mcp-search` is available, use it for Jmix-specific questions instead of web search.
+- If `jmix-rag-mcp-search` is available, use it for Jmix-specific questions instead of web search.
+- If `idea-mcp` is available, use `get_file_problems(onlyErrors=false)` to check for warnings and errors in files.

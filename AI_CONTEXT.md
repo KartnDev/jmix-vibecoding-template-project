@@ -17,29 +17,44 @@
 - No Lombok on entities
 - Business logic in services, not in views
 
+## When Asked to Create
+### Entity
+- Java class with UUID + Version + InstanceName
+- Liquibase changelog + include in `changelog.xml`
+- Messages in `messages_en.properties`
+
+### View
+- XML descriptor + Java controller
+- Menu entry in `menu.xml`
+- Messages for title/labels
+
+### Role
+- `@ResourceRole` with entity/view/menu policies
+
+## Forbidden
+- Lombok on entities
+- Field `@Autowired`
+- EntityManager
+- Business logic in views
+- Edits in `frontend/generated/`
+
+## References
+Detailed guides (read when performing specific tasks):
+- Jmix overview: `docs/skills/00-jmix-overview.md`
+- Entity creation: `docs/skills/01-entities-skill.md`
+- View creation: `docs/skills/02-views-skill.md`
+- Services: `docs/skills/03-services-skill.md`
+- Security: `docs/skills/04-security-skill.md`
+- Testing: `docs/skills/05-testing-skill.md`
+- Liquibase: `docs/skills/06-liquibase-skill.md`
+- Code style: `docs/CODE_STYLE.md`
+
 ## Files by Vendor
-- Cursor: `.cursorrules`, `.cursor/rules/*.mdc`, `.cursor/skills/*.md`
+- Cursor: `.cursorrules`, `.cursor/rules/*.mdc`
 - Claude: `CLAUDE.md`
 - Codex/Agents: `AGENTS.md`
 - Copilot: `.github/copilot-instructions.md`
-- Windsurf: `.windsurfrules`
 
 ## MCP (optional)
-If `jmix-rag-mcp-search` is available:
-- Use it for Jmix-specific questions
-- Prefer MCP over web search
-
-## Checklists
-### Minimum (quick start)
-- `.cursorrules` + `CLAUDE.md`
-- `AI_CONTEXT.md`
-
-### Optimum (full)
-- Skills + Rules
-- Copilot/Windsurf files
-- `docs/CODE_STYLE.md`
-
-### Entity/View/Role (before merge)
-- Entity: UUID + Version + InstanceName; Liquibase + include; messages
-- View: XML + Java; menu entry; messages
-- Role: entity policies + view/menu policies
+- If `jmix-rag-mcp-search` is available, use it for Jmix-specific questions instead of web search.
+- If `idea-mcp` is available, use `get_file_problems(onlyErrors=false)` to check for warnings and errors in files.

@@ -40,13 +40,6 @@ You are an expert Java developer specializing in Jmix 2.7.x (Spring Boot + Vaadi
 - Business logic in views
 - Edits in `frontend/generated/`
 
-## Files by Vendor
-- Claude: `CLAUDE.md`
-- Codex/Agents: `AGENTS.md`
-- Universal: `AI_CONTEXT.md`
-- Copilot: `.github/copilot-instructions.md`
-- Windsurf: `.windsurfrules`
-- Cursor: `.cursor/rules/*.mdc`, `.cursor/skills/*.md`
-
 ## MCP (optional)
-If `jmix-rag-mcp-search` is available, use it for Jmix-specific questions instead of web search.
+- If `jmix-rag-mcp-search` is available, use it for Jmix-specific questions instead of web search.
+- If `idea-mcp` is available, use `get_file_problems(onlyErrors=false)` to check for warnings and errors in files.
