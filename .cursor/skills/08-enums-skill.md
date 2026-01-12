@@ -3,6 +3,12 @@
 ## Description
 Creating enumerations for entity fields with proper localization.
 
+## Required Imports
+```java
+import io.jmix.core.metamodel.datatype.EnumClass;
+import org.springframework.lang.Nullable; // For fromId() return
+```
+
 ## Enum Template
 ```java
 package com.company.project.entity;
@@ -46,6 +52,22 @@ public enum OrderStatus implements EnumClass<String> {
 Jmix enums should implement `EnumClass<T>` where T is the database storage type:
 - `EnumClass<String>` — stored as VARCHAR
 - `EnumClass<Integer>` — stored as INT
+
+## Alternative: EnumUtils.fromId()
+Instead of writing custom `fromId()` method in every enum, use Jmix utility:
+
+```java
+import io.jmix.core.metamodel.datatype.EnumUtils;
+
+// EnumUtils.fromId(TargetEnum.class, storedValue)
+
+// In entity getter
+public OrderStatus getStatus() {
+    return EnumUtils.fromId(OrderStatus.class, this.status);
+}
+```
+
+This is shorter and handles null safely.
 
 ## Integer-Based Enum
 ```java
@@ -179,6 +201,8 @@ public enum OrderStatus implements EnumClass<String> {
 - [ ] Proper column type in Liquibase
 
 ## Forbidden
-- Plain Java enums without `EnumClass` (won't work in UI properly)
-- Storing enum name directly (use getId())
-- Forgetting `@Nullable` on `fromId()` return
+- Plain Java enums without `EnumClass` (breaks UI localization)
+- `@Convert` / `AttributeConverter` (use EnumClass instead)
+- Storing enum `.name()` directly (refactoring breaks existing data)
+- Missing `@Nullable` on `fromId()` return
+- Entity field typed as enum directly (must store ID as String/Integer)

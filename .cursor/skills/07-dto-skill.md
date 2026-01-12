@@ -3,6 +3,22 @@
 ## Description
 Creating DTOs for API responses, reports, and non-persistent data structures.
 
+## When to Use What
+
+| Use Case | Pattern |
+|----------|---------|
+| Jmix UI (dataGrid, forms) | `@JmixEntity` + `@JmixId` |
+| REST API request/response | Plain POJO or Java Record |
+| Internal service layer | Plain POJO or Java Record |
+
+## Java Records (Recommended for REST/immutable DTOs)
+```java
+// Simple, immutable, no boilerplate
+public record OrderRequest(UUID customerId, List<LineItem> items) {}
+
+public record CustomerSummary(String name, int orderCount, BigDecimal total) {}
+```
+
 ## DTO Template
 ```java
 package com.company.project.dto;
@@ -170,7 +186,82 @@ com.company.project.dto/CustomerSummaryDto.totalAmount=Total
 - [ ] Messages added for UI
 - [ ] Use `dataManager.create()` to instantiate
 
+## Validation (Bean Validation / Jakarta Validation)
+Jmix fully supports standard Jakarta Bean Validation annotations.
+
+```java
+import jakarta.validation.constraints.*;
+
+@JmixEntity(name = "app_OrderRequestDto")
+public class OrderRequestDto {
+
+    @JmixId
+    @JmixGeneratedValue
+    private UUID id;
+
+    @NotNull(message = "Customer ID is required")
+    private UUID customerId;
+
+    @NotBlank(message = "Order number cannot be blank")
+    @Size(min = 3, max = 50)
+    private String orderNumber;
+
+    @Valid  // Validates nested objects
+    @NotEmpty(message = "At least one item required")
+    private List<OrderLineDto> lines;
+
+    @Positive
+    private BigDecimal amount;
+
+    @Email
+    private String contactEmail;
+}
+```
+
+**Supported annotations:** `@NotNull`, `@NotBlank`, `@NotEmpty`, `@Size`, `@Min`, `@Max`, `@Positive`, `@Email`, `@Pattern`, `@Past`, `@Future`, `@Valid`
+
+## Validating DTO in Service
+
+### Option A: Inject Validator
+```java
+@Service
+public class OrderService {
+
+    private final Validator validator;
+
+    public OrderService(Validator validator) {
+        this.validator = validator;
+    }
+
+    public void process(OrderRequestDto dto) {
+        Set<ConstraintViolation<OrderRequestDto>> violations = validator.validate(dto);
+        if (!violations.isEmpty()) {
+            throw new ConstraintViolationException(violations);
+        }
+        // proceed...
+    }
+}
+```
+
+### Option B: @Validated on Service
+```java
+@Service
+@Validated
+public class OrderService {
+
+    public void process(@Valid OrderRequestDto dto) {
+        // Validation automatic, throws ConstraintViolationException
+    }
+}
+```
+
+## Lombok
+- **Allowed on DTOs** (unlike entities where it's forbidden)
+- Prefer Java Records for simple immutable DTOs
+- Use Lombok only if you need mutable DTOs with builders
+
 ## Forbidden
 - `@Entity` / `@Table` on DTOs
-- Lombok on DTOs (optional, but consistency with entities)
-- Storing DTOs in database
+- Persisting DTOs to database
+- Using `new Dto()` for UI DTOs (use `dataManager.create()`)
+- Missing `@JmixId` on UI DTOs
