@@ -10,7 +10,7 @@ Jmix provides ready-to-use components for data access, UI, security, and more.
 |--------|-------------|------|
 | Entity | `@Entity` | `@JmixEntity` + `@Entity` |
 | ID | Long / UUID | UUID + `@JmixGeneratedValue` |
-| Data Access | JpaRepository / EntityManager | `DataManager` |
+| Data Access | JpaRepository / EntityManager | `DataManager`, `JmixJpaRepository` |
 | UI | REST + SPA | Vaadin Flow (XML + Java) |
 | Security | Manual / Spring Security | `@ResourceRole`, `@RowLevelRole` |
 | DB Migrations | Flyway / manual | Liquibase (auto-generated) |
@@ -24,7 +24,10 @@ Jmix provides ready-to-use components for data access, UI, security, and more.
 - UUID primary key with `@JmixGeneratedValue`
 
 ### Data Access
-- Use `DataManager` (NOT EntityManager)
+- **`DataManager`** — primary way, supports fetch plans, security-aware
+- **`UnconstrainedDataManager`** — same as DataManager but bypasses security
+- **`JmixJpaRepository`** — Spring Data style, but limited native query support
+- **`EntityManager`** — standard JPA, use for native SQL queries when needed
 - Fetch plans control lazy loading
 - LoadContext for complex queries
 
