@@ -53,6 +53,16 @@ Detailed guides (read when performing specific tasks):
 - Enums: `.cursor/skills/08-enums-skill.md`
 - Fetch Plans: `.cursor/skills/09-fetchplans-skill.md`
 
+Context-specific rules (apply when editing files in matching paths):
+- Entities (`**/entity/**`): `.cursor/rules/jmix-entities.mdc`
+- Views (`**/view/**`): `.cursor/rules/jmix-views.mdc`
+- Security (`**/security/**`): `.cursor/rules/jmix-security.mdc`
+- Services (`**/service/**`): `.cursor/rules/jmix-services.mdc`
+- DTOs (`**/dto/**`): `.cursor/rules/jmix-dto.mdc`
+- Enums: `.cursor/rules/jmix-enums.mdc`
+- Fetch Plans: `.cursor/rules/jmix-fetchplans.mdc`
+- Liquibase (`**/liquibase/**`): `.cursor/rules/jmix-liquibase.mdc`
+
 ## MCP (optional)
 - If `jmix-rag-mcp-search` is available, use it for Jmix-specific questions instead of web search.
 - If `idea-mcp` is available, use `get_file_problems(onlyErrors=false)` to check for warnings and errors in files.
