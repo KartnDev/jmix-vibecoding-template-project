@@ -1,0 +1,47 @@
+# Jmix Fetch Plans Rules
+
+## Scope
+Applies to data loading operations
+
+## Built-in Plans
+- `_base` — all local attributes
+- `_instance_name` — only display name
+- `_local` — same as _base
+
+## XML Definition (fetch-plans.xml)
+```xml
+<fetch-plan entity="Order" name="order-with-lines" extends="_base">
+    <property name="customer" fetchPlan="_instance_name"/>
+    <property name="lines" fetchPlan="_base"/>
+</fetch-plan>
+```
+
+## Programmatic
+```java
+dataManager.load(Order.class)
+    .id(id)
+    .fetchPlan("order-with-lines")
+    .one();
+```
+
+## Inline Builder
+```java
+.fetchPlan(fp -> fp
+    .addAll("field1", "field2")
+    .add("relation", r -> r.addFetchPlan("_base"))
+)
+```
+
+## View XML
+```xml
+<instance id="orderDc" class="Order">
+    <fetchPlan extends="_base">
+        <property name="customer" fetchPlan="_instance_name"/>
+    </fetchPlan>
+</instance>
+```
+
+## Best Practices
+- List views: `_instance_name` for references
+- Detail views: `_base` or custom
+- Check logs for N+1 queries

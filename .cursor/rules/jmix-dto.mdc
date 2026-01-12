@@ -1,0 +1,36 @@
+# Jmix DTO Rules
+
+## Scope
+Applies to `src/main/java/**/dto/`
+
+## DTO Pattern
+```java
+@JmixEntity(name = "UniqueNameDto")
+public class UniqueNameDto {
+    @JmixId
+    @JmixGeneratedValue
+    private UUID id;
+    
+    @InstanceName
+    private String displayField;
+    
+    // Other fields, getters/setters
+}
+```
+
+## Required Annotations
+- `@JmixEntity(name = "...")` — unique name
+- `@JmixId` on ID field
+- `@InstanceName` on display field
+
+## Creating DTOs
+- Use `dataManager.create(Dto.class)` to instantiate
+- Populate from queries or entity data
+
+## After Creating DTO
+- Add messages to `messages_en.properties`
+
+## Forbidden
+- JPA annotations (`@Entity`, `@Table`)
+- Persisting DTOs to database
+- Using DTOs as entity relationships

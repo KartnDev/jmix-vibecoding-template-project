@@ -1,26 +1,31 @@
-# Jmix Views Rules (Cursor)
+# Jmix Views Rules
 
 ## Scope
 Applies to `src/main/java/**/view/` and `src/main/resources/**/view/`
 
-## Patterns (List)
-- Java: `StandardListView<Entity>`
-- XML: data containers + dataLoadCoordinator
-- Actions: create/edit/remove
-- Menu entry in `menu.xml`
-- Messages for titles/labels
+## List View Pattern
+- Java: `extends StandardListView<Entity>`
+- Annotations: `@Route`, `@ViewController`, `@ViewDescriptor`, `@LookupComponent`
+- XML: `<collection>` container + `<dataLoadCoordinator auto="true"/>`
+- Actions: create/edit/remove on dataGrid
 
-## Patterns (Detail)
-- Java: `StandardDetailView<Entity>`
-- XML: `instance` container, form fields, save/close actions
-- Validators in controller (`@Subscribe` events)
+## Detail View Pattern
+- Java: `extends StandardDetailView<Entity>`
+- Annotations: `@Route`, `@ViewController`, `@ViewDescriptor`, `@EditedEntityContainer`
+- XML: `<instance>` container + formLayout
+- Actions: saveClose/close
 
-## Components
-- Use `@ViewComponent` for UI injection
-- Use `@Subscribe` for events
-- Use data containers for binding
+## Component Injection
+- `@ViewComponent` for UI components
+- `@Subscribe` for event handlers
+- `@Install` for delegates
+
+## After Creating View
+1. Add menu entry in `menu.xml`
+2. Add messages for title/labels in `messages_en.properties`
+3. Add `@ViewPolicy` to relevant roles
 
 ## Forbidden
-- Business logic in controllers (keep in services)
-- EntityManager usage
-- Transactions in views
+- Business logic in controllers (move to services)
+- EntityManager usage (use DataManager)
+- Direct transactions

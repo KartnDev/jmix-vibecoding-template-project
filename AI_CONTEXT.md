@@ -40,14 +40,16 @@
 
 ## References
 Detailed guides (read when performing specific tasks):
-- Jmix overview: `docs/skills/00-jmix-overview.md`
-- Entity creation: `docs/skills/01-entities-skill.md`
-- View creation: `docs/skills/02-views-skill.md`
-- Services: `docs/skills/03-services-skill.md`
-- Security: `docs/skills/04-security-skill.md`
-- Testing: `docs/skills/05-testing-skill.md`
-- Liquibase: `docs/skills/06-liquibase-skill.md`
-- Code style: `docs/CODE_STYLE.md`
+- Jmix overview: `.cursor/skills/00-jmix-overview.md`
+- Entity creation: `.cursor/skills/01-entities-skill.md`
+- View creation: `.cursor/skills/02-views-skill.md`
+- Services: `.cursor/skills/03-services-skill.md`
+- Security: `.cursor/skills/04-security-skill.md`
+- Testing: `.cursor/skills/05-testing-skill.md`
+- Liquibase: `.cursor/skills/06-liquibase-skill.md`
+- DTOs: `.cursor/skills/07-dto-skill.md`
+- Enums: `.cursor/skills/08-enums-skill.md`
+- Fetch Plans: `.cursor/skills/09-fetchplans-skill.md`
 
 ## Files by Vendor
 - Cursor: `.cursorrules`, `.cursor/rules/*.mdc`

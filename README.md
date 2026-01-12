@@ -30,7 +30,7 @@ Copy AI configuration files from this repository into your own Jmix projects.
 
 ## Skills (Detailed Guides)
 
-Located in [`docs/skills/`](docs/skills/):
+Located in [`.cursor/skills/`](.cursor/skills/):
 
 | File | Topic |
 |------|-------|
@@ -41,8 +41,25 @@ Located in [`docs/skills/`](docs/skills/):
 | `04-security-skill.md` | Roles & policies |
 | `05-testing-skill.md` | Unit & UI testing |
 | `06-liquibase-skill.md` | Database migrations |
+| `07-dto-skill.md` | Data Transfer Objects |
+| `08-enums-skill.md` | Enumerations with EnumClass |
+| `09-fetchplans-skill.md` | Lazy loading & fetch plans |
 
-**Note:** Cursor IDE uses symlink `.cursor/skills` → `docs/skills` for auto-discovery.
+
+## Rules (Context-Specific)
+
+Located in [`.cursor/rules/`](.cursor/rules/):
+
+| File | Scope |
+|------|-------|
+| `jmix-entities.mdc` | `**/entity/**` |
+| `jmix-views.mdc` | `**/view/**` |
+| `jmix-security.mdc` | `**/security/**` |
+| `jmix-services.mdc` | `**/service/**` |
+| `jmix-dto.mdc` | `**/dto/**` |
+| `jmix-enums.mdc` | Enum files |
+| `jmix-fetchplans.mdc` | Data loading |
+| `jmix-liquibase.mdc` | `**/liquibase/**` |
 
 ## Project Structure
 
@@ -50,14 +67,19 @@ Located in [`docs/skills/`](docs/skills/):
 jmix-common-project/
 ├── src/main/java/.../entity/      # Jmix Entities
 ├── src/main/java/.../view/        # Vaadin UI Controllers
-├── src/main/resources/.../view/   # XML Descriptors
 ├── src/main/java/.../security/    # Resource Roles
+├── src/main/java/.../service/     # Business Logic
+├── src/main/resources/.../view/   # XML Descriptors
 ├── src/main/resources/liquibase/  # DB Migrations
-└── docs/skills/                   # AI Skills (vendor-neutral)
+├── .cursor/skills/                # AI Skills
+└── .cursor/rules/                 # AI Rules (context-specific)
 ```
 
-## MCP
+## RAG-based MCP (Optional)
 
 If `jmix-rag-mcp-search` is configured:
 - AI assistants will use it for Jmix-specific queries
 - Replaces general web search for framework questions
+
+If `idea-mcp` is configured:
+- Use `get_file_problems(onlyErrors=false)` to check for warnings and errors

@@ -1,0 +1,36 @@
+# Jmix Services Rules
+
+## Scope
+Applies to `src/main/java/**/service/`
+
+## Service Pattern
+```java
+@Service
+public class EntityService {
+    private final DataManager dataManager;
+    
+    public EntityService(DataManager dataManager) {
+        this.dataManager = dataManager;
+    }
+}
+```
+
+## DataManager Operations
+- Create: `dataManager.create(Entity.class)`
+- Load: `dataManager.load(Entity.class).id(id).one()`
+- Query: `dataManager.load(Entity.class).query("...").list()`
+- Save: `dataManager.save(entity)`
+- Remove: `dataManager.remove(entity)`
+
+## Transactions
+- `@Transactional` for write operations
+- `@Transactional(readOnly = true)` for read-only
+
+## Fetch Plans
+- Use `.fetchPlan("plan-name")` for eager loading
+- Avoid N+1 queries
+
+## Forbidden
+- Field `@Autowired` (use constructor injection)
+- `EntityManager` (use DataManager)
+- Business logic in views

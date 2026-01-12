@@ -1,19 +1,39 @@
-# Jmix Security Rules (Cursor)
+# Jmix Security Rules
 
 ## Scope
 Applies to `src/main/java/**/security/`
 
-## Patterns
-- `@ResourceRole` for entity/view/menu policies
-- `@EntityPolicy`, `@EntityAttributePolicy`
-- `@ViewPolicy`, `@MenuPolicy`
-- Row-level: `@RowLevelRole`, `@JpqlRowLevelPolicy`, `@PredicatePolicy`
+## Resource Role Pattern
+```java
+@ResourceRole(name = "Role Name", code = RoleName.CODE)
+public interface RoleName {
+    String CODE = "role-code";
+    
+    @EntityPolicy(entityClass = Entity.class, actions = EntityPolicyAction.ALL)
+    @EntityAttributePolicy(entityClass = Entity.class, attributes = "*", action = EntityAttributePolicyAction.MODIFY)
+    void entity();
+    
+    @ViewPolicy(viewIds = {"Entity.list", "Entity.detail"})
+    void views();
+    
+    @MenuPolicy(menuIds = {"Entity.list"})
+    void menu();
+}
+```
+
+## Policies
+- `@EntityPolicy` — CRUD operations
+- `@EntityAttributePolicy` — Attribute access (MODIFY/VIEW/HIDE)
+- `@ViewPolicy` — Screen access
+- `@MenuPolicy` — Menu item visibility
+- `@SpecificPolicy` — Custom permissions
+
+## Row-Level Security
+- `@RowLevelRole` + `@JpqlRowLevelPolicy`
+- Use `{E}` for entity alias
+- Variables: `:current_user_username`
 
 ## Forbidden
 - Hardcoded passwords/secrets
 - Bypassing security checks
-
-## Checklist
-- Role code constant defined
-- Entity policies set (CRUD level)
-- View/Menu policies set
+- Missing entity policies for views

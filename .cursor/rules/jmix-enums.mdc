@@ -1,0 +1,54 @@
+# Jmix Enum Rules
+
+## Scope
+Applies to enums in `src/main/java/**/entity/`
+
+## Enum Pattern
+```java
+public enum Status implements EnumClass<String> {
+    VALUE("value_id");
+    
+    private final String id;
+    
+    Status(String id) { this.id = id; }
+    
+    @Override
+    public String getId() { return id; }
+    
+    @Nullable
+    public static Status fromId(String id) {
+        for (Status s : values()) {
+            if (s.getId().equals(id)) return s;
+        }
+        return null;
+    }
+}
+```
+
+## Required
+- Implement `EnumClass<String>` or `EnumClass<Integer>`
+- `getId()` method
+- Static `fromId()` method with `@Nullable`
+
+## Entity Usage
+```java
+@Column(name = "STATUS")
+private String status;
+
+public Status getStatus() {
+    return status == null ? null : Status.fromId(status);
+}
+
+public void setStatus(Status status) {
+    this.status = status == null ? null : status.getId();
+}
+```
+
+## After Creating Enum
+- Add messages for all values in `messages_en.properties`
+- Liquibase: VARCHAR for String, INT for Integer
+
+## Forbidden
+- Plain enums without `EnumClass`
+- Missing `fromId()` method
+- Storing enum name directly
