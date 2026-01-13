@@ -6,7 +6,7 @@ Copy AI configuration files from this repository into your own Jmix projects.
 
 ## Purpose
 
-- Demonstrate how to configure AI coding assistants (Cursor, Claude, Copilot) for Jmix
+- Demonstrate how to configure AI coding assistants (Cursor, Claude, Copilot, Continue.dev, Codex) for Jmix
 - Provide standardized rules and skills for Jmix entities, views, and security
 - Ensure cross-vendor compatibility for AI tools
 

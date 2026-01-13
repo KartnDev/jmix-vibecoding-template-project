@@ -52,6 +52,7 @@ Detailed guides (read when performing specific tasks):
 - Fetch Plans: `.cursor/skills/fetchplans/SKILL.md`
 
 Context-specific rules (apply when editing files in matching paths):
+- General (always): `.cursor/rules/jmix-overview/RULE.md`
 - Entities (`**/entity/**`): `.cursor/rules/entities/RULE.md`
 - Views (`**/view/**`): `.cursor/rules/views/RULE.md`
 - Services (`**/service/**`): `.cursor/rules/services/RULE.md`
@@ -63,7 +64,7 @@ Context-specific rules (apply when editing files in matching paths):
 - Fetch Plans: `.cursor/rules/fetchplans/RULE.md`
 
 ## Files by Vendor
-- Cursor: `.cursorrules`, `.cursor/rules/*.mdc`
+- Cursor: `.cursorrules`, `.cursor/rules/*/RULE.md`, `.cursor/skills/*/SKILL.md`
 - Claude: `CLAUDE.md`
 - Codex/Agents: `AGENTS.md`
 - Copilot: `.github/copilot-instructions.md`

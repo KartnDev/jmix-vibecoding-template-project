@@ -40,6 +40,31 @@ You are an expert Java developer specializing in Jmix 2.7.x (Spring Boot + Vaadi
 - Business logic in views
 - Edits in `frontend/generated/`
 
+## References
+Detailed guides (read when performing specific tasks):
+- Jmix overview: `.cursor/skills/jmix-overview/SKILL.md`
+- Entity creation: `.cursor/skills/entities/SKILL.md`
+- View creation: `.cursor/skills/views/SKILL.md`
+- Services: `.cursor/skills/services/SKILL.md`
+- Security: `.cursor/skills/security/SKILL.md`
+- Testing: `.cursor/skills/testing/SKILL.md`
+- Liquibase: `.cursor/skills/liquibase/SKILL.md`
+- DTOs: `.cursor/skills/dto/SKILL.md`
+- Enums: `.cursor/skills/enums/SKILL.md`
+- Fetch Plans: `.cursor/skills/fetchplans/SKILL.md`
+
+Context-specific rules (apply when editing files in matching paths):
+- General (always): `.cursor/rules/jmix-overview/RULE.md`
+- Entities (`**/entity/**`): `.cursor/rules/entities/RULE.md`
+- Views (`**/view/**`): `.cursor/rules/views/RULE.md`
+- Services (`**/service/**`): `.cursor/rules/services/RULE.md`
+- Security (`**/security/**`): `.cursor/rules/security/RULE.md`
+- Testing (`**/test/**`): `.cursor/rules/testing/RULE.md`
+- Liquibase (`**/liquibase/**`): `.cursor/rules/liquibase/RULE.md`
+- DTOs (`**/dto/**`): `.cursor/rules/dto/RULE.md`
+- Enums: `.cursor/rules/enums/RULE.md`
+- Fetch Plans: `.cursor/rules/fetchplans/RULE.md`
+
 ## MCP (optional)
 - If `jmix-rag-mcp-search` is available, use it for Jmix-specific questions instead of web search.
 - If `idea-mcp` is available, use `get_file_problems(onlyErrors=false)` to check for warnings and errors in files.
