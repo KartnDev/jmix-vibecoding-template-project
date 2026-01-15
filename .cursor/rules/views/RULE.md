@@ -21,8 +21,39 @@ Applies to `src/main/java/**/view/` and `src/main/resources/**/view/`
 - XML: `<instance>` container + formLayout
 - Actions: saveClose/close
 
-## Component Injection
-- `@ViewComponent` for UI components
+## Dependency Injection in Views
+
+### UI Components from XML — `@ViewComponent`
+```java
+@ViewComponent
+private DataGrid<Order> ordersDataGrid;
+@ViewComponent
+private CollectionLoader<Order> ordersDl;
+@ViewComponent
+private MessageBundle messageBundle;
+@ViewComponent
+private ComboBox<OrderStatus> statusFilter;
+```
+
+### Services and Infrastructure — `@Autowired`
+```java
+@Autowired
+private DialogWindows dialogWindows;
+@Autowired
+private DataManager dataManager;
+@Autowired
+private Notifications notifications;
+@Autowired
+private Messages messages;
+```
+
+### Exception: DataContext
+```java
+@ViewComponent  // NOT @Autowired!
+private DataContext dataContext;
+```
+
+### Event Handlers and Delegates
 - `@Subscribe` for event handlers
 - `@Install` for delegates
 - `@Supply` for renderers
@@ -50,10 +81,12 @@ Applies to `src/main/java/**/view/` and `src/main/resources/**/view/`
 
 ## After Creating View
 1. Add menu entry in `menu.xml`
-2. Add messages for title/labels in `messages_en.properties`
+2. Add messages for title/labels in ALL locale files
 3. Add `@ViewPolicy` to relevant roles
 
 ## Forbidden
 - Business logic in controllers (move to services)
 - EntityManager usage (use DataManager)
 - Direct transactions
+- Hardcoded UI text (use `msg://` prefix)
+- Adding messages to only one locale file

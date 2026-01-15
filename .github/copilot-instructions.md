@@ -19,26 +19,40 @@ You are an expert Java developer specializing in Jmix 2.7.x (Spring Boot + Vaadi
 - No Lombok on entities
 - Business logic in services, not in views
 
+## Dependency Injection
+- **Views**: `@ViewComponent` for XML components (DataGrid, loaders, MessageBundle, DataContext)
+- **Views**: `@Autowired` for Spring beans (DataManager, DialogWindows, Messages)
+- **Services**: Constructor injection only
+
 ## When Asked to Create
 ### Entity
 - Java class with UUID + Version + InstanceName
 - Liquibase changelog + include in `changelog.xml`
-- Messages in `messages_en.properties`
+- Messages in ALL locale files (`messages.properties`, `messages_*.properties`)
 
 ### View
 - XML descriptor + Java controller
 - Menu entry in `menu.xml`
-- Messages for title/labels
+- Messages for title/labels in ALL locale files
 
 ### Role
 - `@ResourceRole` with entity/view/menu policies
 
+## Validation Checklist
+- Entity: UUID + Version + InstanceName present
+- Changelog added to `changelog.xml`
+- Messages added for all components (entity, enum, view titles, labels)
+- View: XML + Java pair; menu updated
+- Security: role covers entity/view/menu
+
 ## Forbidden
 - Lombok on entities
-- Field `@Autowired`
+- Field `@Autowired` (use constructor injection in services)
 - EntityManager
 - Business logic in views
 - Edits in `frontend/generated/`
+- **Hardcoded UI text** — ALL labels, titles, buttons MUST use `msg://` keys
+- **Single-locale messages** — ALWAYS add to ALL locale files
 
 ## References
 Detailed guides (read when performing specific tasks):
@@ -52,6 +66,7 @@ Detailed guides (read when performing specific tasks):
 - DTOs: `.cursor/skills/dto/SKILL.md`
 - Enums: `.cursor/skills/enums/SKILL.md`
 - Fetch Plans: `.cursor/skills/fetchplans/SKILL.md`
+- **i18n (Messages)**: `.cursor/skills/i18n/SKILL.md`
 
 Context-specific rules (apply when editing files in matching paths):
 - General (always): `.cursor/rules/jmix-overview/RULE.md`
@@ -64,6 +79,14 @@ Context-specific rules (apply when editing files in matching paths):
 - DTOs (`**/dto/**`): `.cursor/rules/dto/RULE.md`
 - Enums: `.cursor/rules/enums/RULE.md`
 - Fetch Plans: `.cursor/rules/fetchplans/RULE.md`
+- **i18n (`**/*.properties`)**: `.cursor/rules/i18n/RULE.md`
+
+## Files by Vendor
+- Cursor: `.cursorrules`, `.cursor/rules/*/RULE.md`, `.cursor/skills/*/SKILL.md`
+- Claude: `CLAUDE.md`
+- Codex/Agents: `AGENTS.md`
+- Copilot: `.github/copilot-instructions.md`
+- Continue.dev: `.continuerules`
 
 ## MCP (optional)
 - If `jmix-rag-mcp-search` is available, use it for Jmix-specific questions instead of web search.

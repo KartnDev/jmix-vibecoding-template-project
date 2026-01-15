@@ -127,11 +127,39 @@ public class CustomerDetailView extends StandardDetailView<Customer> {
 
 ## Dependency Injection
 
+### UI Components from XML — `@ViewComponent`
+```java
+@ViewComponent
+private DataGrid<Customer> customersDataGrid;
+@ViewComponent
+private CollectionLoader<Customer> customersDl;
+@ViewComponent
+private MessageBundle messageBundle;
+@ViewComponent
+private DataContext dataContext;  // Exception: NOT @Autowired!
+```
+
+### Services and Infrastructure — `@Autowired`
+```java
+@Autowired
+private DialogWindows dialogWindows;
+@Autowired
+private DataManager dataManager;
+@Autowired
+private Notifications notifications;
+@Autowired
+private Messages messages;
+```
+
+### Quick Reference
 | What | Annotation | Example |
 |------|------------|---------|
 | Spring beans | `@Autowired` | `@Autowired DataManager dataManager` |
 | UI components | `@ViewComponent` | `@ViewComponent DataGrid<Customer> grid` |
-| Data containers | `@ViewComponent` | `@ViewComponent CollectionContainer<Customer> customersDc` |
+| Data containers | `@ViewComponent` | `@ViewComponent CollectionContainer<Customer> dc` |
+| Data loaders | `@ViewComponent` | `@ViewComponent CollectionLoader<Customer> dl` |
+| Message bundle | `@ViewComponent` | `@ViewComponent MessageBundle messageBundle` |
+| **DataContext** | `@ViewComponent` | `@ViewComponent DataContext dataContext` |
 
 ## Event Handlers (@Subscribe)
 
