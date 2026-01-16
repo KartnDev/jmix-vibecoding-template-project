@@ -1,12 +1,12 @@
-# CLAUDE.md — Claude Code Context
+# Jmix Fullstack Project — Junie AI Guidelines
 
-> **Note:** Claude Code reads ONLY `CLAUDE.md` (case-sensitive). Other tools read different files - see "Files by Vendor" section.
+## Agent Role
+You are a Java developer expert in Jmix 2.7.x (Spring Boot + Vaadin Flow).
 
 ## Project
-- Type: Fullstack Jmix 2.7.x template (Java 17, Spring Boot, Vaadin Flow)
-- Database: HSQLDB (dev), PostgreSQL (prod)
+- Type: Fullstack Jmix 2.7.x sample (Java 17, Spring Boot, Vaadin Flow)
+- Database: HSQLDB (dev)
 - Run: `./gradlew bootRun` (http://localhost:8080, admin/admin)
-- Clean DB: `rm -rf .jmix/hsqldb/*`
 
 ## Architecture
 - Entity: `@JmixEntity`, UUID + `@JmixGeneratedValue`, `@Version`, `@InstanceName`
@@ -26,7 +26,6 @@
 - **Services**: Constructor injection only
 
 ## When Asked to Create
-
 ### Entity
 - Java class with UUID + Version + InstanceName
 - Liquibase changelog + include in `changelog.xml`
@@ -56,10 +55,7 @@
 - **Hardcoded UI text** — ALL labels, titles, buttons MUST use `msg://` keys
 - **Single-locale messages** — ALWAYS add to ALL locale files
 
-## References (Universal Location)
-
-> **Important:** Use `ai-docs/` folder — it's accessible by ALL AI tools including Junie (which cannot read dotfiles).
-
+## References
 Detailed guides (read when performing specific tasks):
 - Jmix overview: `ai-docs/skills/jmix-overview/SKILL.md`
 - Entity creation: `ai-docs/skills/entities/SKILL.md`
@@ -73,49 +69,73 @@ Detailed guides (read when performing specific tasks):
 - Fetch Plans: `ai-docs/skills/fetchplans/SKILL.md`
 - **i18n (Messages)**: `ai-docs/skills/i18n/SKILL.md`
 
-Context-specific rules:
+Context-specific rules (apply when editing files in matching paths):
 - General (always): `ai-docs/rules/jmix-overview/RULE.md`
-- Entities: `ai-docs/rules/entities/RULE.md`
-- Views: `ai-docs/rules/views/RULE.md`
-- Services: `ai-docs/rules/services/RULE.md`
-- Security: `ai-docs/rules/security/RULE.md`
-- Testing: `ai-docs/rules/testing/RULE.md`
-- Liquibase: `ai-docs/rules/liquibase/RULE.md`
-- DTOs: `ai-docs/rules/dto/RULE.md`
+- Entities (`**/entity/**`): `ai-docs/rules/entities/RULE.md`
+- Views (`**/view/**`): `ai-docs/rules/views/RULE.md`
+- Services (`**/service/**`): `ai-docs/rules/services/RULE.md`
+- Security (`**/security/**`): `ai-docs/rules/security/RULE.md`
+- Testing (`**/test/**`): `ai-docs/rules/testing/RULE.md`
+- Liquibase (`**/liquibase/**`): `ai-docs/rules/liquibase/RULE.md`
+- DTOs (`**/dto/**`): `ai-docs/rules/dto/RULE.md`
 - Enums: `ai-docs/rules/enums/RULE.md`
 - Fetch Plans: `ai-docs/rules/fetchplans/RULE.md`
-- i18n: `ai-docs/rules/i18n/RULE.md`
+- **i18n (`**/*.properties`)**: `ai-docs/rules/i18n/RULE.md`
 
-## Verification Steps
+## Files by Vendor
+- Cursor: `.cursorrules`, `.cursor/rules/`, `.cursor/skills/`
+- Claude: `CLAUDE.md`
+- Codex/Agents: `AGENTS.md`
+- Copilot: `.github/copilot-instructions.md`
+- Continue.dev: `.continuerules`
+- Junie: `.junie/guidelines.md`
+- Universal: `ai-docs/rules/*/RULE.md`, `ai-docs/skills/*/SKILL.md`
 
-After writing code, **always verify** before reporting completion:
+## Development Workflow
 
-1. **Build check**: `./gradlew classes` — catch compile errors
-2. **Run application**: `./gradlew bootRun` — catch runtime errors
-3. **Test in browser** (http://localhost:8080):
+### Verification Steps
+After writing code, run the application to catch errors:
+
+1. **Run application** (`./gradlew bootRun` or IDE Run)
+   - Jmix Studio applies Liquibase automatically before start
+   - Many design-time errors only visible when app runs
+
+2. **Test in browser** (http://localhost:8080)
    - Navigate to your views
    - Click through all functionality
    - Create, edit, delete records
    - Test pickers, grids, filters
 
-### MCP Verification (if available)
-- **IDEA MCP**: `get_file_problems(filePath, errorsOnly=false)` — check warnings/errors
-- **Playwright MCP**: Open browser and click through views to verify UI
+### ⚠️ Liquibase Note
+Jmix Studio applies Liquibase BEFORE application starts. If you have changelog errors, app won't start.
 
-## Files by Vendor
+## MCP Tools (Optional)
 
-| Tool | Auto-reads | Notes |
-|------|------------|-------|
-| **Claude Code** | `CLAUDE.md` only | Case-sensitive! |
-| **Cursor** | `AGENTS.md`, `.cursorrules`, `.cursor/rules/`, `.cursor/skills/` | Best context support |
-| **Continue** | `AGENTS.md`, `.continuerules` | Reads skills, not rules |
-| **Junie** | `.junie/guidelines.md` | Cannot read dotfiles! Use `ai-docs/` |
-| **Copilot** | `.github/copilot-instructions.md` | Limited |
+If available, these tools can help:
 
-## MCP Servers (optional)
+| Tool | Use For |
+|------|---------|
+| `idea-mcp` | **Views:** catch runtime errors without running app. **Entities:** missing i18n |
+| `playwright-mcp` | Automate browser testing |
+| `jmix-rag-mcp-search` | Search Jmix docs instead of web |
 
-| Server | Purpose |
-|--------|---------|
-| `jmix-rag-mcp` | Jmix-specific questions (instead of web search) |
-| `jetbrains` (IDEA MCP) | Get file problems, navigate code |
-| `playwright` | Browser verification, UI testing |
+### IDEA MCP — Views Check (Recommended)
+For views, IDEA MCP catches **real runtime errors** that Jmix Studio detects:
+- Wrong component names (e.g., `tagPicker` doesn't exist)
+- Missing properties, wrong attributes
+- @Subscribe/@Install annotation errors
+- Fetch plan issues
+
+```
+open_file_in_editor(filePath)
+wait 3-10 seconds
+get_file_problems(filePath, onlyErrors=false)
+```
+
+This saves time — you see errors **before** running the app.
+
+### Jmix RAG MCP — Documentation Search
+If you don't know something about Jmix:
+```
+jmix_rag_search("multiSelectComboBox")
+```
