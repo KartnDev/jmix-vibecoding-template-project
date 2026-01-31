@@ -40,7 +40,7 @@ Settings → Tools → Junie → Project Settings → Guidelines path → set AG
 | Tool           | Auto-reads                    | Notes                                        |
 |----------------|-------------------------------|----------------------------------------------|
 | Claude Code    | `CLAUDE.md`                   | Case-sensitive, only context file for vendor |
-| Codex (OpenAI) | `AGENTS.md`                   | Nothing need to extend to work with Condex   |
+| Codex (OpenAI) | `AGENTS.md`                   | Works out of the box                         |
 | Continue.dev   | `AGENTS.md`, `.continuerules` | Also, works out of the box                   |
 
 If your tool uses a different config file and you don't want to always add pre-prompt about `AGENTS.md`, copy `AGENTS.md` content to that file (e.g., `CLAUDE.md`, `.cursorrules`) - or rename it to needing file.
